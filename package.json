@@ -1,0 +1,39 @@
+{
+  "name": "green-charge",
+  "version": "1.0.0",
+  "description": "MERN full-stack web app that charges IoT devices when the carbon footprint of the power grid is lowest.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wilfriedbarth/Green-Charge.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wilfriedbarth/Green-Charge/issues"
+  },
+  "homepage": "https://github.com/wilfriedbarth/Green-Charge#readme",
+  "devDependencies": {
+    "dotenv": "^4.0.0"
+  },
+  "dependencies": {
+    "axios": "^0.16.2",
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "mongoose": "^4.10.8",
+    "morgan": "^1.8.2",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-redux": "^5.0.5",
+    "react-router-dom": "^4.1.1",
+    "redux": "^3.7.0",
+    "redux-devtools-extension": "^2.13.2",
+    "redux-form": "^6.8.0",
+    "redux-thunk": "^2.2.0",
+    "semantic-ui-react": "^0.70.0"
+  }
+}
