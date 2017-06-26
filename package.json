@@ -4,7 +4,7 @@
   "description": "MERN full-stack web app that charges IoT devices when the carbon footprint of the power grid is lowest.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "webpack-dev-server --config ./client/config/webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,14 @@
   },
   "homepage": "https://github.com/wilfriedbarth/Green-Charge#readme",
   "devDependencies": {
-    "dotenv": "^4.0.0"
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.0",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-env": "^1.5.2",
+    "babel-preset-react": "^6.24.1",
+    "dotenv": "^4.0.0",
+    "webpack": "^3.0.0",
+    "webpack-dev-server": "^2.5.0"
   },
   "dependencies": {
     "axios": "^0.16.2",
