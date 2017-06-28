@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start:client": "webpack-dev-server --env=dev --config ./client/config/webpack.config.js"
+    // npm run start:client to run 
   },
   "repository": {
     "type": "git",
