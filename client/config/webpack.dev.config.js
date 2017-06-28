@@ -68,6 +68,7 @@ module.exports = {
 	      		/\.bmp$/,
 	      		/\.gif$/,
 	      		/\.jpe?g$/,
+	      		/\.svg$/,
 	      		/\.png$/
 	      	],
 	      	options: {
