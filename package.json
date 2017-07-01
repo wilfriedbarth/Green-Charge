@@ -4,7 +4,8 @@
   "description": "MERN full-stack web app that charges IoT devices when the carbon footprint of the power grid is lowest.",
   "main": "index.js",
   "scripts": {
-    "start:client": "webpack-dev-server --env=dev --config ./client/config/webpack.config.js"
+    "start:client": "webpack-dev-server --env=dev --config ./client/config/webpack.config.js",
+    "start:server": "nodemon ./server/index.js"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
     "file-loader": "^0.11.2",
     "html-webpack-plugin": "^2.29.0",
     "node-sass": "^4.5.3",
+    "nodemon": "^1.11.0",
     "sass-loader": "^6.0.6",
     "semantic-ui-react": "^0.70.0",
     "style-loader": "^0.18.2",

@@ -1,8 +1,10 @@
-const { Schema } = require("mongoose");
+const { Schema } = require('mongoose');
 
-var userSchema = new Schema({
+const userSchema = new Schema({
   username: String,
   email: String,
   password:   String,
   countryCode: String
 });
+
+module.exports = userSchema;

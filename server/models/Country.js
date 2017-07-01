@@ -1,6 +1,6 @@
-const { Schema } = require("mongoose");
+const { Schema } = require('mongoose');
 
-var countrySchema = new Schema({
+const countrySchema = new Schema({
   countryCode: String,
   data: [
     {
@@ -32,3 +32,5 @@ var countrySchema = new Schema({
     storage: String
   }
 });
+
+module.exports = countrySchema;
