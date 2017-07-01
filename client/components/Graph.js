@@ -2,16 +2,17 @@ import React, { Component } from 'react';
 import * as d3 from 'd3';
 import { Container } from 'semantic-ui-react';
 
+
 // subcomponents to render in browser 
-class Bottom extends Component {
+class Axis extends Component {
   render() {
+    // const w = 800 - (margin.left + margin.right);
+    // const h = 300 - (margin.top + margin.bottom);
 
-  }
-}
-
-class Left extends Component {
-  render() {
-
+    // return(
+    //     <g className="x axis" call={xAxis}>
+    //     </g>
+    //   )
   }
 }
 
@@ -65,6 +66,14 @@ class Line extends Component {
 
     const transform = `translate(${margin.left},${margin.top})`;
 
+    // axes
+    const xScale = d3.scaleTime().domain(d3.extent(data, (d) => {
+      return parseTime(d.time);
+    })).rangeRound([0, w]);
+    const yScale = d3.scaleLinear().domain([0, 100]);
+    const xAxis = d3.axisBottom(xScale);
+    const yAxis = d3.axisLeft(yScale);
+
     const divStyle = {
       fill: 'none',
       stroke: 'red'
@@ -73,6 +82,9 @@ class Line extends Component {
     return(
       <div>
         <svg id='chart' width={width} height={height}>
+          <g className="x axis">
+            <call/>
+          </g>
           <g transform={transform}>
             <path className='line shadow' d={line(this.state.data)} strokeLinecap='round' style={divStyle} />
           </g>
