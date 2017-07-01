@@ -9,14 +9,18 @@ import {
 
 // pull in components 
 import Main from '../components/Main';
-import Graph from '../components/Graph';
+import Navbar from '../components/Navbar';
+import Signin from '../components/Signin';
 
 // export the routes 
 const App = (
   <Router>
     <div>
-      <Route exact path='/' component={Main}/>
-      <Route path='/graph' component={Graph}/>
+      <Navbar />
+      <Switch>
+        <Route exact path='/' component={Main}/>
+        <Route exact path='/signin' component={Signin}/>
+      </Switch>
     </div>
   </Router>
 )

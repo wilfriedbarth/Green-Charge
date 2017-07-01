@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-
+import Graph from './Graph';
 
 class Main extends Component {
   render() {
@@ -8,7 +8,7 @@ class Main extends Component {
       <div>
         <h1>Main.js</h1>
         <div>
-          {this.props.children}
+          <Graph/>
         </div>
       </div>
     )
