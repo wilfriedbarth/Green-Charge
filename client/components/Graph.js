@@ -59,15 +59,22 @@ class Line extends Component {
       return x(parseTime(d.time));
     }).y(function(d) {
       return y(d.carbon);
-    });
+    }).curve(d3.curveCardinal);
 
-    var transform = `translate(${margin.left},${margin.top})`;
+    // const svg = d3.select(line).append('svg').attr('width', w).attr('height', h).append('g').attr('transform', transform);
+
+    const transform = `translate(${margin.left},${margin.top})`;
+
+    const divStyle = {
+      fill: 'none',
+      stroke: 'red'
+    }
 
     return(
       <div>
         <svg id='chart' width={width} height={height}>
           <g transform={transform}>
-            <path className='line shadow' d={line(this.state.data)} strokeLinecap='round'/>
+            <path className='line shadow' d={line(this.state.data)} strokeLinecap='round' style={divStyle} />
           </g>
         </svg>
       </div>
