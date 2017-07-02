@@ -48,10 +48,10 @@ function getAndSaveApiData() {
         }
       });
     })
-    .then(countryUpdates => {
+    .then(() => {
       console.log('New API Data successfully saved to database!');
     })
-    // log error if requestAll fails
+    // catch any errors
     .catch(err => console.log(err));
 }
 

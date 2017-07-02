@@ -11,7 +11,7 @@ module.exports = {
   fetchCountryByCode(code) {
     return Country.findOne(
       { countryCode: code }
-    );
+    ).exec();
   },
   /**
    * updateCountryByCode() updates the country with new data or
@@ -27,6 +27,6 @@ module.exports = {
       { countryCode: code },
       props,
       { upsert: true }
-    );
+    ).exec();
   }
 };
