@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 const dataSchema = new Schema({
   datetime: Date,
   carbonIntensity: Number,
-  exchange: [{ countryCode: String, exchange: Number }],
+  exchange: { type: Schema.Types.Mixed },
   fossilFuelPercentage: Number,
   price: Number,
   production: {
