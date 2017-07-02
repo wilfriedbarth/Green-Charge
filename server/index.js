@@ -8,7 +8,7 @@ const morgan = require('morgan');
 const path = require('path');
 const mongoose = require('mongoose');
 // import local dependencies
-const timer = require('./helpers/timer.js');
+const timerInit = require('./helpers/timer.js');
 const Country = require('./models/Country.js');
 const User = require('./models/User.js');
 const apiRoutes = require('./routes/apiRoutes');
@@ -31,7 +31,7 @@ db.on('error', function(error) {
 db.once('open', function() {
 	console.log('Mongoose connection successful.');
   // start timer when mongoose has successfully connected
-  timer();
+  timerInit();
 });
 
  // initialize express app

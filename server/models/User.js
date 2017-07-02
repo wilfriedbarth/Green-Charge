@@ -8,4 +8,4 @@ const userSchema = new Schema({
   countryCode: String
 });
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('User', userSchema, 'User');
