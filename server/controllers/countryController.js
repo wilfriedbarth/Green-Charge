@@ -1,26 +1,12 @@
 // import country queries to be use in country controller
-const {
-  fetchCountries,
-  fetchCountry,
-  createCountry,
-  updateCountry,
-  deleteCountry
-} = require('../queries/countryQueries');
+const { fetchCountryByCode } = require('../queries/db/countryQueries');
 
 module.exports = {
-  fetchAll(req, res, next) {
-  
-  },
   fetch(req, res, next) {
-     
-  },
-  create(req, res, next) {
+    const { code } = req.params;
 
-  },
-  update(req, res, next) {
-
-  },
-  delete(req, res, next) {
-
+    fetchCountryByCode(code)
+      .then(data => res.json(data))
+      .catch(err => next(err));
   }
 };

@@ -5,7 +5,7 @@ const {
   createUser,
   updateUser,
   deleteUser
-} = require('../queries/userQueries');
+} = require('../queries/db/userQueries');
 
 module.exports = {
   fetchAll(req, res, next) {

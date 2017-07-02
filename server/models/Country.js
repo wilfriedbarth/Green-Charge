@@ -1,29 +1,32 @@
-const { Schema } = require('mongoose');
+const mongoose = require('mongoose');
+const { Schema } = mongoose; 
 
+// create subdocument schema for data
+const dataSchema = new Schema({
+  datetime: Date,
+  carbonIntensity: Number,
+  exchange: [{ countryCode: String, exchange: Number }],
+  fossilFuelPercentage: Number,
+  price: Number,
+  production: {
+    biomass: Number,
+    coal: Number,
+    gas: Number,
+    hydro: Number,
+    nuclear: Number,
+    oil: Number,
+    solar: Number,
+    wind: Number
+  },
+  storage: {
+    hydro: Number
+  }
+});
+
+// create document schema for country
 const countrySchema = new Schema({
   countryCode: String,
-  data: [
-    {
-      carbonIntensity: Number,
-      datetime: Date,
-      exchange: [{ countryCode: String, exchange: Number }],
-      fossilFuelPercentage: Number,
-      price: Number,
-      production: {
-        biomass: Number,
-        coal: Number,
-        gas: Number,
-        hydro: Number,
-        nuclear: Number,
-        oil: Number,
-        solar: Number,
-        wind: Number
-      },
-      storage: {
-        hydro: Number
-      }
-    }
-  ],
+  data: [ dataSchema ],
   units: {
     carbonIntensity: String,
     exchange: String,
@@ -33,4 +36,4 @@ const countrySchema = new Schema({
   }
 });
 
-module.exports = countrySchema;
+module.exports = mongoose.model('Country', countrySchema);

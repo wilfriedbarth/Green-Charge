@@ -7,11 +7,7 @@ const countryController = require('../controllers/countryController');
 const userController = require('../controllers/userController');
 
 // configure country routes
-router.get('/countries', countryController.fetchAll);
-router.get('/countries/:id', countryController.fetch);
-router.get('/countries', countryController.create);
-router.get('/countries/:id', countryController.update);
-router.get('/countries/:id', countryController.delete);
+router.get('/countries/:code', countryController.fetch);
 
 // configure user routes
 router.get('/users', userController.fetchAll);

@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start:client": "webpack-dev-server --env=dev --config ./client/config/webpack.config.js",
-    "start:server": "nodemon ./server/index.js"
+    "start:server": "NODE_ENV=development nodemon ./server/index.js",
+    "build": "webpack --env=prod --config ./client/config/webpack.config.js",
+    "serve": "NODE_ENV=production node ./server/index.js"
   },
   "repository": {
     "type": "git",
@@ -39,8 +41,10 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
+    "bluebird": "^3.5.0",
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
+    "moment": "^2.18.1",
     "mongoose": "^4.10.8",
     "morgan": "^1.8.2",
     "react": "^15.6.1",

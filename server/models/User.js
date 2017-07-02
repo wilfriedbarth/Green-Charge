@@ -1,4 +1,5 @@
-const { Schema } = require('mongoose');
+const mongoose = require('mongoose');
+const { Schema } = mongoose; 
 
 const userSchema = new Schema({
   username: String,
@@ -7,4 +8,4 @@ const userSchema = new Schema({
   countryCode: String
 });
 
-module.exports = userSchema;
+module.exports = mongoose.model('User', userSchema);
