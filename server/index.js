@@ -7,8 +7,6 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const path = require('path');
 const mongoose = require('mongoose');
-const passport = require('passport');
-const jwt = require('jsonwebtoken');
 // import local dependencies
 const timerInit = require('./helpers/timer.js');
 const Country = require('./models/Country.js');
@@ -20,7 +18,6 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.text());
 app.use(bodyParser.urlencoded({ extended: true}));
-app.use(passport.initialize());
 app.use(morgan('dev'));
 
 // serve react app only in production
@@ -51,7 +48,6 @@ if (process.env.NODE_ENV === 'development') {
 }
  
 const db = mongoose.connection;
-require('./config/passport')(passport);
 // Show any mongoose errors
 db.on('error', function(error) {
   console.log('Mongoose Error: ', error);

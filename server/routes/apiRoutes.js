@@ -6,6 +6,11 @@ const router = express.Router();
 // import local dependencies (controllers)
 const countryController = require('../controllers/countryController');
 const userController = require('../controllers/userController');
+const authController = require('../controllers/authController');
+
+// configure passport middlewares
+const requireAuth = passport.authenticate('jwt', { session: false });
+//const requireSignIn = passport.authenticate('local', { session: false });
 
 // configure country routes
 router.get('/countries/:code', countryController.fetch);
@@ -16,9 +21,12 @@ router.get('/users/:id', userController.fetch);
 router.get('/users', userController.create);
 router.get('/users/:id', userController.update);
 router.get('/user/:id', userController.delete);
-router.get('/authenticate', userController.authenticate);
 
-router.get('/account', passport.authenticate('jwt', { session: false}), function(req,res){
+// configure auth routes
+router.post('/signin', /*requireSignIn,*/ authController.signIn);
+router.post('/signup', authController.signUp);
+
+router.get('/account', requireAuth, function(req,res){
 
 })
 
