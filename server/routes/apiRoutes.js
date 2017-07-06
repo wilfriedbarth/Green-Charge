@@ -1,5 +1,6 @@
 // import third-party dependencies
 const express = require('express');
+const passport = require('passport');
 const router = express.Router();
 
 // import local dependencies (controllers)
@@ -15,5 +16,10 @@ router.get('/users/:id', userController.fetch);
 router.get('/users', userController.create);
 router.get('/users/:id', userController.update);
 router.get('/user/:id', userController.delete);
+router.get('/authenticate', userController.authenticate);
+
+router.get('/account', passport.authenticate('jwt', { session: false}), function(req,res){
+
+})
 
 module.exports = router;
