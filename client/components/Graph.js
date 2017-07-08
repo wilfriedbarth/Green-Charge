@@ -1,109 +1,82 @@
 import React, { Component } from 'react';
-import * as d3 from 'd3';
-import { Container } from 'semantic-ui-react';
+import { Sparklines, SparklinesLine, SparklinesReferenceLine } from 'react-sparklines';
+import { Container, Grid, Checkbox, List } from 'semantic-ui-react';
+import Chart from './Chart';
 
+// graph component 
+class Graph extends Component {
 
-// subcomponents to render in browser 
-class Axis extends Component {
-  render() {
-    // const w = 800 - (margin.left + margin.right);
-    // const h = 300 - (margin.top + margin.bottom);
-
-    // return(
-    //     <g className="x axis" call={xAxis}>
-    //     </g>
-    //   )
-  }
-}
-
-class Data extends Component {
-  render() {
-
-  }
-}
-
-class Line extends Component {
   constructor(props) {
     super(props);
 
     // TODO get data and format the times with moment (or d3.time.format??) (use military time)
     this.state = {
-      data : [
-      {time: '09:30',carbon: 50},
-      {time: '10:30',carbon: 40},
-      {time: '11:30',carbon: 90},
-      {time: '12:30',carbon: 10},
-      {time: '13:30',carbon: 50}
-      ]
+      data: [
+        {
+          carbon: 50,
+          electric: 100,
+          other: 4
+        },
+        {
+          carbon: 80,
+          electric: 130, 
+          other: 10
+        },
+        {
+          carbon: 60,
+          electric: 130,
+          other: 8
+        },
+        {
+          carbon: 60,
+          electric: 140,
+          other: 17
+        },
+        {
+          carbon: 36,
+          electric: 170,
+          other: 20
+        }
+      ], 
+      // display graphs
+      carbon: true,
+      electric: true,
+      other: true
     }
   }
 
-  render() {
-    const margin = {top: 5, right: 50, bottom: 20, left: 50};
-    const w = 800 - (margin.left + margin.right);
-    const h = 300 - (margin.top + margin.bottom);
-    const width = 800;
-    const height = 300;
-    const {data} = this.state;
-
-    // format the times so d3 can read as times
-    const parseTime = d3.timeParse('%H:%M');
-    const x = d3.scaleTime().domain(d3.extent(data, (d) => {
-      return parseTime(d.time);
-    })).rangeRound([0, w]);
-
-    const y = d3.scaleLinear().domain([0,d3.max(this.state.data, function(d) {
-      return d.carbon;
-    })]).range([h,0]);
-
-    const line = d3.line().x(function(d) {
-      return x(parseTime(d.time));
-    }).y(function(d) {
-      return y(d.carbon);
-    }).curve(d3.curveCardinal);
-
-    // const svg = d3.select(line).append('svg').attr('width', w).attr('height', h).append('g').attr('transform', transform);
-
-    const transform = `translate(${margin.left},${margin.top})`;
-
-    // axes
-    const xScale = d3.scaleTime().domain(d3.extent(data, (d) => {
-      return parseTime(d.time);
-    })).rangeRound([0, w]);
-    const yScale = d3.scaleLinear().domain([0, 100]);
-    const xAxis = d3.axisBottom(xScale);
-    const yAxis = d3.axisLeft(yScale);
-
-    const divStyle = {
-      fill: 'none',
-      stroke: 'red'
-    }
-
-    return(
-      <div>
-        <svg id='chart' width={width} height={height}>
-          <g className="x axis">
-            <call/>
-          </g>
-          <g transform={transform}>
-            <path className='line shadow' d={line(this.state.data)} strokeLinecap='round' style={divStyle} />
-          </g>
-        </svg>
-      </div>
-      )
+  showHideGraphs(event, data) {
+    const newState = {}
+    newState[data.id] = data.checked;
+    
   }
-}
 
-// graph component 
-class Graph extends Component {
   render() {
+    const carbon = this.state.data.map(data => data.carbon);
+    const electric = this.state.data.map(data => data.electric);
+    const other = this.state.data.map(data => data.other);
+
     return(
-      <div>
-        <h1>Graphs</h1>
-        <Container>
-          <Line />
-        </Container>
-      </div>
+      <Grid columns={2}>
+        <Grid.Row>
+          <List>
+            <List.Item><Checkbox onChange={this.showHideGraphs} id='carbon' label={<label>Carbon</label>} /></List.Item>
+            <List.Item><Checkbox onChange={this.showHideGraphs} id='label' label={<label>Electric</label>} /></List.Item>
+            <List.Item><Checkbox onChange={this.showHideGraphs} id='other' label={<label>Other</label>} /></List.Item>
+          </List>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column>
+            <Chart name={'Carbon'} data={carbon} color='pink' units='ERU'/>
+          </Grid.Column>
+          <Grid.Column>
+            <Chart name={'Electric'} data={electric} color='orange' units='kW'/>
+          </Grid.Column>
+          <Grid.Column>
+            <Chart name={'other'} data={other} color='#E500E9' units='big units'/>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
     )
   }
 }
