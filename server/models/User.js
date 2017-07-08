@@ -3,26 +3,34 @@ const bcrypt = require('bcrypt');
 const { Schema } = mongoose; 
 
 const userSchema = new Schema({
-  username: String,
   email: { type: String, unique: true, lowercase: true, trim: true }, 
   password:   String,
   countryCode: { type: String, uppercase: true },
   device: { type: Number, unique: true, trim: true }
 });
 
+// on save hook, encrypt password
+// before saving a model, run this function
 userSchema.pre('save', function (next) {
- let user = this;
+  // get access to user model
+  const user = this;
+   
+  // generate a salt, then run callback
 	if (this.isModified('password') || this.isNew){
 	 	bcrypt.genSalt(10, function (err, salt) {
 	 		if (err){
 	 			return next(err);
 	 		}
+      
+      // hash (encrypt) a password using a salt
 	 		bcrypt.hash(user.password, salt, function(err, hash){
 	 			if (err) {
 	 				return next(err);
 	 			}
+        
+        // overwrite plain text password with encrypted password
 	 			user.password = hash;
-	 			next();
+	 			return next();
 	 		});
 	 	});
 	} else {
@@ -30,11 +38,9 @@ userSchema.pre('save', function (next) {
 	}
 });
 
-userSchema.methods.comparePassword = function (pw,cb){
-	bcrypt.comparePassword(pw, this.password, function (err,isMatch){
-		if (err) {
-			return cb(err);
-		}
+userSchema.methods.comparePassword = function (pw, cb){
+	bcrypt.comparePassword(pw, this.password, function (err, isMatch){
+		if (err) { return cb(err); }
 		cb(null, isMatch);
 	});
 }

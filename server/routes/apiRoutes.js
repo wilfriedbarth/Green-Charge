@@ -1,7 +1,7 @@
 // import third-party dependencies
 const express = require('express');
-const passport = require('passport');
 const router = express.Router();
+const passport = require('passport');
 
 // import local dependencies (controllers)
 const countryController = require('../controllers/countryController');
@@ -10,7 +10,7 @@ const authController = require('../controllers/authController');
 
 // configure passport middlewares
 const requireAuth = passport.authenticate('jwt', { session: false });
-//const requireSignIn = passport.authenticate('local', { session: false });
+const requireSignIn = passport.authenticate('local', { session: false });
 
 // configure country routes
 router.get('/countries/:code', countryController.fetch);
@@ -23,7 +23,7 @@ router.get('/users/:id', userController.update);
 router.get('/user/:id', userController.delete);
 
 // configure auth routes
-router.post('/signin', /*requireSignIn,*/ authController.signIn);
+router.post('/signin', requireSignIn, authController.signIn);
 router.post('/signup', authController.signUp);
 
 router.get('/account', requireAuth, function(req,res){
