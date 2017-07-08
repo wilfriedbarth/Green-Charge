@@ -1,5 +1,6 @@
 require('dotenv').config();
 // third-party dependencies
+const passport = require("passport");
 const jwtStrategy = require("passport-jwt").Strategy;
 const extractJwt = require("passport-jwt").ExtractJwt;
 const LocalStrategy = require("passport-local").Strategy;
@@ -24,6 +25,8 @@ const localLogin = new LocalStrategy(localOptions, function(email, password, don
 
       return done(null, user);
     });
+  });
+});
 
 // setup options for JWT strategy
 const jwtOptions = {
