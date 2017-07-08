@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Graph from './Graph';
+import { Container } from 'semantic-ui-react';
 
 class Main extends Component {
   render() {
     return(
-      <div>
+      <Container>
         <h1>Main.js</h1>
         <div>
           <Graph/>
         </div>
-      </div>
+      </Container>
     )
   }
 }
