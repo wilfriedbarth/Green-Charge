@@ -7,6 +7,7 @@ import apiCaller from './utils/api.js';
 // graph component 
 class Graph extends Component {
 
+  // default two values of 0s -> flat line before data loaded
   constructor(props) {
     super(props);
     this.state = {
@@ -42,6 +43,18 @@ class Graph extends Component {
           carbonIntensity: 0
         }
         ]
+      },
+      graphs: {
+        carbon: true,
+        hydro: true,
+        wind: true,
+        solar: true,
+        nuclear: false,
+        geothermal: false,
+        biomass: false,
+        coal: false,
+        gas: false,
+        oil: false
       }
     }
   }
@@ -55,8 +68,9 @@ class Graph extends Component {
 
   // TODO: checkboxes to filter which graphs visible
   showHideGraphs(event, data) {
-    const newState = {}
-    newState[data.id] = data.checked;
+    const graphState = this.state.graphs;
+    graphState[data.id] = data.checked;
+    this.setState(graphState);
   }
 
   render() {
@@ -73,29 +87,85 @@ class Graph extends Component {
     const oil = this.state.countryData.data.map(obj => (obj.production.oil));
 
     return(
-      <Grid columns={2}>
-        <Grid.Row>
-          <List>
-            <List.Item><Checkbox onChange={this.showHideGraphs} id='carbon' label={<label>Carbon</label>} /></List.Item>
-            <List.Item><Checkbox onChange={this.showHideGraphs} id='label' label={<label>Electric</label>} /></List.Item>
-            <List.Item><Checkbox onChange={this.showHideGraphs} id='other' label={<label>Other</label>} /></List.Item>
-          </List>
+      <Grid divided='vertically'> 
+        <Grid.Row columns={3}>
+          <Grid.Column>
+            <List>
+              <List.Item><Checkbox onChange={this.showHideGraphs.bind(this)} id='carbon' label={<label>Carbon</label>} defaultChecked/></List.Item>
+              <List.Item><Checkbox onChange={this.showHideGraphs.bind(this)} id='hydro' label={<label>Hydro</label>} defaultChecked/></List.Item>
+              <List.Item><Checkbox onChange={this.showHideGraphs.bind(this)} id='wind' label={<label>Wind</label>} defaultChecked/></List.Item>
+              <List.Item><Checkbox onChange={this.showHideGraphs.bind(this)} id='solar' label={<label>Solar</label>} defaultChecked/></List.Item>
+            </List>
+          </Grid.Column>
+          <Grid.Column>
+            <List>
+              <List.Item><Checkbox onChange={this.showHideGraphs.bind(this)} id='nuclear' label={<label>Nuclear</label>} /></List.Item>
+              <List.Item><Checkbox onChange={this.showHideGraphs.bind(this)} id='geothermal' label={<label>Geothermal</label>} /></List.Item>
+              <List.Item><Checkbox onChange={this.showHideGraphs.bind(this)} id='biomass' label={<label>Biomass</label>} /></List.Item>
+            </List>
+          </Grid.Column>
+          <Grid.Column>
+            <List>
+              <List.Item><Checkbox onChange={this.showHideGraphs.bind(this)} id='coal' label={<label>Coal</label>} /></List.Item>
+              <List.Item><Checkbox onChange={this.showHideGraphs.bind(this)} id='gas' label={<label>Gas</label>} /></List.Item>
+              <List.Item><Checkbox onChange={this.showHideGraphs.bind(this)} id='oil' label={<label>Oil</label>} /></List.Item>
+            </List>
+          </Grid.Column>
         </Grid.Row>
-        <Grid.Row>
+
+        <Grid.Row columns={2}>
+          {this.state.graphs.carbon &&
           <Grid.Column>
             <Chart name={'Carbon Intensity'} data={carbon} color='pink' units='gC02eq/kWh'/>
           </Grid.Column>
+          }
+          {this.state.graphs.hydro &&
           <Grid.Column>
             <Chart name={'Hydro Production'} data={hydro} color='orange' units='check units'/>
           </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
+          } 
+          {this.state.graphs.wind &&
           <Grid.Column>
             <Chart name={'Wind Production'} data={wind} color='#E500E9' units='check units'/>
           </Grid.Column>
+          }
+          {this.state.graphs.solar &&
           <Grid.Column>
-            <Chart name={'Solar Production'} data={solar} color='#65FFF5' units='check units'/>
+            <Chart name={'Solar Production'} data={solar} color='#F9354C' units='check units'/>
           </Grid.Column>
+          }
+
+          {this.state.graphs.nuclear &&
+          <Grid.Column>
+            <Chart name={'Nuclear Production'} data={nuclear} color='#F9FF66' units='check units'/>
+          </Grid.Column>
+          }
+          {this.state.graphs.geothermal &&
+          <Grid.Column>
+            <Chart name={'Geothermal Production'} data={geothermal} color='#76B0FC' units='check units'/>
+          </Grid.Column>
+          }
+          {this.state.graphs.biomass &&
+          <Grid.Column>
+            <Chart name={'Biomass Production'} data={biomass} color='#99FF57' units='check units'/>
+          </Grid.Column>
+          }
+
+          {this.state.graphs.coal &&
+          <Grid.Column>
+            <Chart name={'Coal Production'} data={coal} color='#FB0017' units='check units'/>
+          </Grid.Column>
+          }
+          {this.state.graphs.gas &&
+          <Grid.Column>
+            <Chart name={'Gas Production'} data={gas} color='#E0008D' units='check units'/>
+          </Grid.Column>
+          }
+          {this.state.graphs.oil &&
+          <Grid.Column>
+            <Chart name={'Oil Production'} data={oil} color='#F65B07' units='check units'/>
+          </Grid.Column>
+          }
         </Grid.Row>
       </Grid>
     )
@@ -104,4 +174,4 @@ class Graph extends Component {
 
 export default Graph;
 
-
+// TODO: handle null values in data
