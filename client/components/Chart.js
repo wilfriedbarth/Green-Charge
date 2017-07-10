@@ -10,10 +10,10 @@ class Chart extends Component {
 
   render() {
     const data = this.props.data;
-    const avg = data.reduce((a, b) => a + b) / data.length; // sum / length
-    const curr = data[data.length-1]; 
-    const min = Math.min(...data);
-    const max = Math.max(...data);
+    const avg = (data.reduce((a, b) => a + b) / data.length).toFixed(1); // sum / length, rounded to 1
+    const curr = data[data.length-1].toFixed(1); 
+    const min = Math.min(...data).toFixed(1);
+    const max = Math.max(...data).toFixed(1);
 
     return (
         <Grid>
