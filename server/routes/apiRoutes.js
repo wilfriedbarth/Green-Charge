@@ -8,6 +8,7 @@ const passport = require('passport');
 const countryController = require('../controllers/countryController');
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
+const deviceController = require('../controllers/deviceController');
 
 // configure passport middlewares
 const requireAuth = passport.authenticate('jwt', { session: false });
@@ -30,5 +31,9 @@ router.post('/signup', authController.signUp);
 router.get('/account', requireAuth, function(req,res){
 
 })
+
+// configure device routes
+router.get('/device/status', requireAuth, deviceController.getStatus);
+router.post('/device/set:pwr', requireAuth, deviceController.setStatus);
 
 module.exports = router;
