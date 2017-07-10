@@ -6,7 +6,7 @@ const userSchema = new Schema({
   email: { type: String, unique: true, lowercase: true, trim: true }, 
   password:   String,
   countryCode: { type: String, uppercase: true },
-  device: { type: Number, unique: true, trim: true }
+  device: [{ type: Number, ref: 'Device' }]
 });
 
 // on save hook, encrypt password
