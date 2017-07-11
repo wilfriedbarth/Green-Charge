@@ -42,12 +42,12 @@ class Signin extends Component {
               <label>Password</label>
               <input id='pwd' type='password' onChange={this.updateUser.bind(this)}/>
             </Form.Field>
-            <Button type='submit'>Submit</Button>
+            <Button type='submit' color='grey' size='large'>Sign In</Button>
           </Form>
         </Segment>
         <Segment attached='bottom' raised>
           <Label color='orange' ribbon>New User?</Label>
-          <Button as={NavLink} to="/signup">Sign Up</Button>
+          <Button as={NavLink} to="/signup" size='small'>Sign Up</Button>
         </Segment>
       </div>
     )
