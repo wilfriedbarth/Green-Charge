@@ -7,7 +7,7 @@ const User = require('../models/User');
 
 // create a token for a user
 function tokenForUser(user) {
-  return jwt.sign({ sub: user.id, expiresIn: '5m' }, process.env.JWT_SECRET);
+  return 'JWT ' + jwt.sign({ userId: user.id, expiresIn: '5m' }, process.env.JWT_SECRET);
 }
 
 // sign in

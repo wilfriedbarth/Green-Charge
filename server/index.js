@@ -13,7 +13,7 @@ const Country = require('./models/Country.js');
 const User = require('./models/User.js');
 const apiRoutes = require('./routes/apiRoutes');
 
- // initialize express app
+// initialize express app
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.text());
@@ -24,7 +24,6 @@ app.use(morgan('dev'));
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/dist')));
 }
-// console.log(process.env)
 // import routes for controllers
 app.use('/api', apiRoutes);
 

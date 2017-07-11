@@ -35,8 +35,9 @@ const jwtOptions = {
 };
 
 // create JWT strategy
+debugger;
 const jwtLogin = new jwtStrategy(jwtOptions, (jwtPayload, done) => {
-  User.findOne({ id: jwtPayload.sub }, (err, user) => {
+  User.findById(jwtPayload.userId, (err, user) => {
     if (err) { return done(err, false); }
 
     if (user) {

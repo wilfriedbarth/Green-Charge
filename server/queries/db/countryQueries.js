@@ -26,7 +26,7 @@ module.exports = {
     return Country.findOneAndUpdate(
       { countryCode: code },
       props,
-      { upsert: true }
+      { upsert: true, new: true }
     ).exec();
   }
 };
