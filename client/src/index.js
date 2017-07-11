@@ -1,5 +1,8 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 
-ReactDom.render(<div>Hi!</div>, document.getElementById("root"));
+import routes from '../config/routes';
+// TODO: import scss
+
+ReactDom.render(routes, document.getElementById("root"));
 
