@@ -7,6 +7,7 @@ const {
   updateCountryByCode
 } = require('../queries/db/countryQueries');
 const { requestAll } = require('../queries/co2-signal-api/apiQueries');
+const { predictChargeState } = require('./charger.js');
 
 /**
  * getAndSaveApiData() hits CO2 Signal API with list of countries we
@@ -18,7 +19,7 @@ const { requestAll } = require('../queries/co2-signal-api/apiQueries');
 function getAndSaveApiData() {
   requestAll(countries)
     .then(requests => {
-      return requests.map(request => {
+      return Promise.all(requests.map(request => {
         if (request.isFulfilled()) {
           const { data } = request.value(); 
 
@@ -42,14 +43,23 @@ function getAndSaveApiData() {
           return updateCountryByCode(
             data.countryCode,
             props
-          )
+          ).reflect();
         } else {
           console.log(request.reason());
         }
-      });
+      }));
     })
-    .then(() => {
+    .then(requests => {
       console.log('New API Data successfully saved to database!');
+      return Promise.all(requests.map(request => {
+        if (request.isFulfilled()) {
+          const { data } = request.value();
+
+          return predictChargeState(data);
+        } else {
+          console.log(request.reason());
+        }
+      }));
     })
     // catch any errors
     .catch(err => console.log(err));
