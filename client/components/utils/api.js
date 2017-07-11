@@ -1,6 +1,6 @@
-var axios = require('axios');
+import axios from 'axios';
 
-var apiCaller = {
+const apiCaller = {
   getCountryData(countryCode) {
     return axios.get(`/api/countries/${countryCode}`).then(function(response) {
       return response.data;
@@ -9,4 +9,4 @@ var apiCaller = {
 
 }
 
-module.exports = apiCaller;
+export default apiCaller;

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Button, Segment, Label, Divider } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
+import authCaller from './utils/auth.js';
 
 class Signup extends Component {
   constructor(props) {
@@ -8,7 +9,7 @@ class Signup extends Component {
 
     this.state = {
       email: "",
-      pwd: ""
+      password: ""
     }
   }
 
@@ -38,7 +39,7 @@ class Signup extends Component {
           </Form.Field>
           <Form.Field required>
             <label>Password</label>
-            <input id='pwd' type='password' onChange={this.updateUser.bind(this)}/>
+            <input id='password' type='password' onChange={this.updateUser.bind(this)}/>
           </Form.Field>
           <Button size='large' type='submit' color='grey'>Register</Button>
         </Form>

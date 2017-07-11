@@ -1,17 +1,22 @@
-var axios = require('axios');
+import axios from 'axios';
 
-var authCaller = {
+const authCaller = {
   
   authenticate(user) {
-    console.log(user.email);
-    // TODO
+    console.log(user);
+    axios.post(`/api/signin`, user).then(function(response) {
+      console.log(response);
+    });
   },
 
   newUser(user) {
-    console.log(user.email);
-    // TODO
+    axios.post(`/api/signup`, user).then(function(response) {
+      console.log(response);
+      var token = response.data.token;
+      console.log(token);
+    });
   }
 
 }
 
-module.exports = authCaller;
+export default authCaller;

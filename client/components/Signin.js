@@ -9,7 +9,7 @@ class Signin extends Component {
 
     this.state = {
       email: "",
-      pwd: ""
+      password: ""
     }
   }
 
@@ -40,7 +40,7 @@ class Signin extends Component {
             </Form.Field>
             <Form.Field required>
               <label>Password</label>
-              <input id='pwd' type='password' onChange={this.updateUser.bind(this)}/>
+              <input id='password' type='password' onChange={this.updateUser.bind(this)}/>
             </Form.Field>
             <Button type='submit' color='grey' size='large'>Sign In</Button>
           </Form>
