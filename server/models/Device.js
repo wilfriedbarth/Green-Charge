@@ -3,7 +3,10 @@ const { Schema } = mongoose;
 
 const deviceSchema = new Schema({
   device: { type: Number, unique: true, trim: true },
-  claimed: { type: Boolean, default: false }
+  userId: { type: String, default: null }, 
+  countryCode: { type: String, uppercase: true },
+  auto: {type: Boolean, default: true},
+  chargingStatus: {type: Boolean, default: false}
 });
 
 module.exports = mongoose.model('Device', deviceSchema, 'Device');

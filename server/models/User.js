@@ -4,9 +4,7 @@ const { Schema } = mongoose;
 
 const userSchema = new Schema({
   email: { type: String, unique: true, lowercase: true, trim: true }, 
-  password:   String,
-  countryCode: { type: String, uppercase: true },
-  device: [{ type: Number, ref: 'Device' }]
+  countryCode: { type: String, uppercase: true }
 });
 
 // on save hook, encrypt password
