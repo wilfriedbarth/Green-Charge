@@ -43,6 +43,7 @@
     "axios": "^0.16.2",
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.2",
+    "d3": "^4.9.1",
     "express": "^4.15.3",
     "moment": "^2.18.1",
     "mongoose": "^4.10.8",
@@ -50,6 +51,7 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-router-dom": "^4.1.1",
+    "react-sparklines": "^1.6.0",
     "semantic-ui-react": "^0.70.0"
   }
 }
