@@ -21,31 +21,75 @@ function getAndSaveApiData() {
     .then(requests => {
       return Promise.all(requests.map(request => {
         if (request.isFulfilled()) {
-          const { data } = request.value(); 
+          const { 
+            status,
+            statusText,
+            data: {
+              countryCode,
+              data: {
+                carbonIntensity,
+                exchange,
+                fossilFuelPercentage,
+                price,
+                production,
+                storage
+              },
+              units
+            }
+          } = request.value(); 
 
           const props = {
-            countryCode: data.countryCode || null,
+            countryCode,
             updatedAt: moment().format(),
             $push: {
               data: {
                 createdAt: moment().format(),
-                carbonIntensity: data.data.carbonIntensity || null,
-                exchange: data.data.exchange || null,
-                fossilFuelPercentage: data.data.fossilfuelPercentage || null,
-                price: data.data.price || null,
-                production: data.data.production || null,
-                storage: data.data.storage || null
+                carbonIntensity: carbonIntensity || null,
+                exchange: exchange || null,
+                fossilFuelPercentage: fossilFuelPercentage || null,
+                price: price || null,
+                production: production || null,
+                storage: storage || null,
+                status,
+                statusText
               }
             },
-            units: data.units || null
+            units: units || null
           };
 
           return updateCountryByCode(
-            data.countryCode,
+            countryCode,
             props
           ).reflect();
-        } else {
-          console.log(request.reason());
+        } else if (request.isRejected()) {
+          const { 
+            config: { params: { countryCode } },
+            response: { status, statusText }
+          } = request.reason();
+           
+          const props = {
+            countryCode,
+            updatedAt: moment().format(),
+            $push: {
+              data: {
+                createdAt: moment().format(),
+                carbonIntensity: null,
+                exchange: null,
+                fossilFuelPercentage: null,
+                price: null,
+                production: null,
+                storage: null,
+                status,
+                statusText
+              }
+            },
+            units: null
+          };
+
+          return updateCountryByCode(
+            countryCode,
+            props
+          ).reflect();
         }
       }));
     })

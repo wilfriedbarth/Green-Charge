@@ -3,7 +3,7 @@ require('dotenv').config();
 // import third-party dependencies
 const axios = require('axios');
 // import local dependencies
-const URL = 'https://api.co2signal.com/v1/latest?countryCode=';
+const URL = 'https://api.co2signal.com/v1/latest';
 
 module.exports = {
   /**
@@ -15,8 +15,9 @@ module.exports = {
    */
 	requestAll(countries) {
 		let requests = countries.map(country => {
-      return axios.get(URL + country, {
-        headers: { 'auth-token': process.env.API_KEY }
+      return axios.get(URL, {
+        headers: { 'auth-token': process.env.API_KEY },
+        params: { countryCode: country }
       });
 		});
 
@@ -32,8 +33,9 @@ module.exports = {
    * country.
    */
   requestOne(country) {
-    return axios.get(URL + country, {
-      headers: { 'auth-token': process.env.API_KEY }
+    return axios.get(URL, {
+      headers: { 'auth-token': process.env.API_KEY },
+      params: { countryCode: country }
     });
   }
 }
