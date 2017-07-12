@@ -3,18 +3,18 @@ import axios from 'axios';
 const authCaller = {
   
   signIn(user) {
-    axios.post(`/api/signin`, user).then(function(response) {
+    return axios.post(`/api/signin`, user).then(function(response) {
       // save JWT to local storage
       localStorage.setItem('accessToken', response.data.token);
-      return;
+      return
     });
   },
 
   newUser(user) {
-    axios.post(`/api/signup`, user).then(function(response) {
+    return axios.post(`/api/signup`, user).then(function(response) {
       // save JWT to local storage
       localStorage.setItem('accessToken', response.data.token);  
-      return;
+      return
     });
   },
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Button, Segment, Label, Divider } from 'semantic-ui-react';
+import { Form, Button, Segment, Label, Divider, Modal } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import authCaller from './utils/auth.js';
 
@@ -9,7 +9,8 @@ class Signin extends Component {
 
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      modalOpen: true,
     }
   }
 
@@ -22,14 +23,20 @@ class Signin extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    authCaller.signIn(this.state);
-    // axios post to get JWT 
+        // axios post to get JWT 
+    authCaller.signIn({
+      email: this.state.email, 
+      password: this.state.password
+    }).then(function() {
+      this.setState({modalOpen: false});
+    }.bind(this));
     // TODO clear input field after submitting  
   }
 
   render() {
     return(
-      <div>
+      <Modal id='signin' basic closeOnDimmerClick={false} closeOnEscape={false} dimmer={'blurring'} open={this.state.modalOpen}>
+        <Modal.Content>
         <Segment attached='top' raised>
           <Label color='green' size='big' ribbon>Sign In</Label>
           <Divider hidden />
@@ -49,7 +56,8 @@ class Signin extends Component {
           <Label color='orange' ribbon>New User?</Label>
           <Button as={NavLink} to="/signup" size='small'>Sign Up</Button>
         </Segment>
-      </div>
+        </Modal.Content>
+      </Modal>
     )
   }
 }
