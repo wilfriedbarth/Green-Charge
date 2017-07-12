@@ -55,7 +55,7 @@ class Signup extends Component {
       </Segment>
       <Segment attached='bottom' raised>
         <Label color='green' ribbon>Already a User?</Label>
-        <Button as={NavLink} to="/signin" size='small'>Sign In</Button>
+        <Button as={NavLink} to="/" size='small'>Sign In</Button>
       </Segment>
       </div>
     )

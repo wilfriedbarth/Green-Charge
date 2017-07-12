@@ -19,8 +19,7 @@ const authCaller = {
   },
 
   signOut() {
-    localStorage.removeItem('token');
-    return;
+    localStorage.removeItem('accessToken');
   }
 
 }

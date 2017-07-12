@@ -7,7 +7,7 @@ const Navbar = () => (
     <Menu.Item header>Green Charge</Menu.Item>
     <Menu.Menu position="right">
       <Menu.Item name="Home" as={NavLink} to="/" />
-      <Menu.Item name="Sign In" as={NavLink} to="/signin" />
+      <Menu.Item name="Sign Out" as={NavLink} to="/signout" />
     </Menu.Menu>
   </Menu>
 );

@@ -30,7 +30,7 @@ class Signin extends Component {
     }).then(function() {
       // modal closed
       this.setState({modalOpen: false});
-      //redirect to home if successful (if they directed to signin modal from signup page then they won't be automatically at root once logged in)
+      //redirect to home if successful
       this.props.history.push('/');
     }.bind(this));
   }
