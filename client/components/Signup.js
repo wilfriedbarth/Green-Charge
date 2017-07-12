@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Form, Button, Segment, Label, Divider } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import authCaller from './utils/auth.js';
@@ -27,8 +27,10 @@ class Signup extends Component {
       email: this.state.email,
       password: this.state.password
     }
-    authCaller.newUser(user);
-    // TODO clear input field after submitting  
+    authCaller.newUser(user).then(function() {
+      //redirect to home if successful
+      this.props.history.push('/');
+    }.bind(this));
   }
   render() {
     if(this.state.authenticated) {

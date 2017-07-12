@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Form, Button, Segment, Label, Divider, Modal } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import authCaller from './utils/auth.js';
@@ -28,9 +28,11 @@ class Signin extends Component {
       email: this.state.email, 
       password: this.state.password
     }).then(function() {
+      // modal closed
       this.setState({modalOpen: false});
+      //redirect to home if successful (if they directed to signin modal from signup page then they won't be automatically at root once logged in)
+      this.props.history.push('/');
     }.bind(this));
-    // TODO clear input field after submitting  
   }
 
   render() {
