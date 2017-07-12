@@ -21,8 +21,8 @@ const App = (
       <Navbar />
       <Container>
         <Switch>
-          <Route exact path='/' component={Main}/>
-          <Route exact path='/signin' component={Signin}/>
+          <Route exact path='/' component={Main} />
+          <Route exct path='/signin' component={Signin} />
           <Route exact path='/signup' component={Signup}/>
         </Switch>
       </Container>

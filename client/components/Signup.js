@@ -15,18 +15,25 @@ class Signup extends Component {
 
   // respond to user input
   updateUser(event) {
-    var newState = {};
+    const newState = {};
     newState[event.target.id] = event.target.value;
     this.setState(newState);
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    authCaller.newUser(this.state);
-    // axios post to get JWT 
+    // axios post to get JWT and save to local storage
+    const user = {
+      email: this.state.email,
+      password: this.state.password
+    }
+    authCaller.newUser(user);
     // TODO clear input field after submitting  
   }
   render() {
+    if(this.state.authenticated) {
+      return (<Redirect to='/' />)
+    }
     return(
       <div>
       <Segment attached='top' raised>

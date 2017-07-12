@@ -15,14 +15,14 @@ class Signin extends Component {
 
   // respond to user input
   updateUser(event) {
-    var newState = {};
+    const newState = {};
     newState[event.target.id] = event.target.value;
     this.setState(newState);
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    authCaller.authenticate(this.state);
+    authCaller.signIn(this.state);
     // axios post to get JWT 
     // TODO clear input field after submitting  
   }
