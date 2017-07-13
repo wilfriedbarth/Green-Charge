@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-
 import { Dropdown, Button, Form } from 'semantic-ui-react';
-
-
+import apiCaller from './utils/api.js';
+import  countryOptions  from './countryListReference';
+import Graph from './Graph';
 
 
 class SearchBar extends Component {
@@ -10,22 +10,43 @@ class SearchBar extends Component {
 		super(props);
 
 
-		
+		this.state = {
+			countryOptions: props.value
+		};
 
+		this.onCountryChange = this.onCountryChange.bind(this);
+		
 	}
 
 
+  	onCountryChange (e, data) {
+  	 	this.setState({ value: event.target.value})
+  	 	
+  	}
+
+
+  	// onCountrySelect (e,data){
+  	// 	this.props.showHideGraphs(this.state.countryOptions);
+  	// 	console.log(this.state.countryOptions)
+  	// }
+
 
 		render () {
-			const countryOptions = [{value:'US', text:'United States'}, {text: 'Spain'}];
+				
+			// const countryValue = this.state.countryOptions.props.value.map(props=>props.value);
+
 			return(
 				<form>
-				<Dropdown placeholder='Country' 
+				<Dropdown  
+				placeholder='Country' 
 				search selection
-				options={countryOptions} />
-				<Button primary>Submit</Button>
+				options={countryOptions}
+				value = {this.state.countryValue}
+				onChange={this.onCountryChange}
+				/>
 				</form>
 			)	
+			console.log(this.state.countryValue)	
 		}
 	
 }
