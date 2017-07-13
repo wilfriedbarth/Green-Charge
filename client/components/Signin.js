@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Form, Button, Segment, Label, Divider } from 'semantic-ui-react';
+import React, { Component, PropTypes } from 'react';
+import { Form, Button, Segment, Label, Divider, Modal } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import authCaller from './utils/auth.js';
 
@@ -9,27 +9,36 @@ class Signin extends Component {
 
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      modalOpen: true,
     }
   }
 
   // respond to user input
   updateUser(event) {
-    var newState = {};
+    const newState = {};
     newState[event.target.id] = event.target.value;
     this.setState(newState);
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    authCaller.authenticate(this.state);
-    // axios post to get JWT 
-    // TODO clear input field after submitting  
+        // axios post to get JWT 
+    authCaller.signIn({
+      email: this.state.email, 
+      password: this.state.password
+    }).then(function() {
+      // modal closed
+      this.setState({modalOpen: false});
+      //redirect to home if successful
+      this.props.history.push('/');
+    }.bind(this));
   }
 
   render() {
     return(
-      <div>
+      <Modal id='signin' basic closeOnDimmerClick={false} closeOnEscape={false} dimmer={'blurring'} open={this.state.modalOpen}>
+        <Modal.Content>
         <Segment attached='top' raised>
           <Label color='green' size='big' ribbon>Sign In</Label>
           <Divider hidden />
@@ -49,7 +58,8 @@ class Signin extends Component {
           <Label color='orange' ribbon>New User?</Label>
           <Button as={NavLink} to="/signup" size='small'>Sign Up</Button>
         </Segment>
-      </div>
+        </Modal.Content>
+      </Modal>
     )
   }
 }

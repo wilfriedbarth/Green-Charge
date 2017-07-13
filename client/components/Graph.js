@@ -13,7 +13,7 @@ class Graph extends Component {
     super(props);
     this.state = {
       countryData: {
-        countryCode: 'NN',
+        countryCode: 'NA',
         data: [
         {
           production: {
@@ -61,7 +61,7 @@ class Graph extends Component {
   }
   
   componentWillMount() {
-    const countryCode = 'US' // TODO: get from searchbar 
+    const countryCode = 'FR' // TODO: get from searchbar 
     apiCaller.getCountryData(countryCode).then(function(data) {
       this.setState({countryData: data});
     }.bind(this));

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Form, Button, Segment, Label, Divider } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import authCaller from './utils/auth.js';
@@ -15,18 +15,27 @@ class Signup extends Component {
 
   // respond to user input
   updateUser(event) {
-    var newState = {};
+    const newState = {};
     newState[event.target.id] = event.target.value;
     this.setState(newState);
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    authCaller.newUser(this.state);
-    // axios post to get JWT 
-    // TODO clear input field after submitting  
+    // axios post to get JWT and save to local storage
+    const user = {
+      email: this.state.email,
+      password: this.state.password
+    }
+    authCaller.newUser(user).then(function() {
+      //redirect to home if successful
+      this.props.history.push('/');
+    }.bind(this));
   }
   render() {
+    if(this.state.authenticated) {
+      return (<Redirect to='/' />)
+    }
     return(
       <div>
       <Segment attached='top' raised>
@@ -46,7 +55,7 @@ class Signup extends Component {
       </Segment>
       <Segment attached='bottom' raised>
         <Label color='green' ribbon>Already a User?</Label>
-        <Button as={NavLink} to="/signin" size='small'>Sign In</Button>
+        <Button as={NavLink} to="/" size='small'>Sign In</Button>
       </Segment>
       </div>
     )
