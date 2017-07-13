@@ -9,5 +9,11 @@ module.exports = {
   },
   fetchDevicesForUser(userId) {
     return Device.find({ userId }).exec();
+  },
+  updateDeviceAuto(deviceId, auto = true) {
+    return Device.findAndUpdateById(
+      deviceId,
+      { auto }
+    ).exec();
   }
 };

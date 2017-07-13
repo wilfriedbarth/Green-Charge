@@ -1,48 +1,43 @@
 require('dotenv').config();
 const axios = require('axios');
 
+const {
+  getParticleStatus,
+  setParticleStatus
+} = require('../queries/particle-api/apiQueries.js');
+
 // local dependencies
 const User = require('../models/User');
 
 module.exports = {
+  getStatus(req, res, next) {
+    const { particleId } = req.params;
 
+    getParticleStatus(particleId)
+      .then(res => {
+        const status = res.data.result; 
+        if (!status) {
+          res.json({ status: 'off' });
+        } else if (status) {
+          res.json({ status: 'on' });
+        }
+      })
+      .catch(next);
+  },
+  setStatus(req, res, next) {
+    const { particleId } = req.params;
+    const { chargingState } = req.body;
+
+    setParticleStatus(particleId, chargingState)
+      .then(res => {
+        const status = res.data.return_value;
+        if (status === 1 && chargingState === 'on') {
+          res.json({ status: 'on' });
+        } else if (status === 0 && chargingState === 'off') {
+          res.json({ status: 'off' });
+        }
+      })
+      .catch(next);
+  }
 };
 
-// get device status
-exports.getStatus = function(req, res, next) {
-
-  //const userDevice = 
-
-  axios.get(`https://api.particle.io/v1/devices/${userDevice}/status`, 
-    {headers: {
-      "authorization": process.env.PARTICLE_API
-    }})
-  .then(function (response) {
-    console.log(response);
-    res.json({  });
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-}
-
-// set device status
-exports.setStatus = function(req, res, next) {
-
-  //const userDevice = 
-
-  const arg = req.params.arg // on || off
-
-  axios.post(`https://api.particle.io/v1/devices/${userDevice}/pwr?arg=${arg}`, 
-      {headers: {
-        "authorization": process.env.PARTICLE_API
-      }})
-    .then(function (response) {
-      console.log(response);
-       res.json({  });
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-
-}

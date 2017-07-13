@@ -17,9 +17,16 @@ const requireSignIn = passport.authenticate('local', { session: false });
 // configure country routes
 router.get('/countries/:code', countryController.fetch);
 
+// configure device routes
+
+router.put('/devices/:id/auto' /* mongo id */, deviceController.updateDeviceAuto);
+router.get('/devices/:particleId', deviceController.getParticleStatus);
+router.post('/devices/:particleId', deviceController.setParticlesStatus);
+
 // configure user routes
 router.get('/users', requireAuth, userController.fetchAll);
 router.get('/users/:id', userController.fetch);
+router.get('/users/:id/devices', deviceController.fetchDevicesForUser);
 router.get('/users', userController.create);
 router.get('/users/:id', userController.update);
 router.get('/user/:id', userController.delete);
