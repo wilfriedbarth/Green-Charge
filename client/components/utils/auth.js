@@ -4,6 +4,9 @@ const authCaller = {
   
   signIn(user) {
     return axios.post(`/api/signin`, user).then(function(response) {
+      // response status
+      const status = response.status;
+
       // save JWT to local storage
       localStorage.setItem('accessToken', response.data.token);
       return
@@ -12,6 +15,8 @@ const authCaller = {
 
   newUser(user) {
     return axios.post(`/api/signup`, user).then(function(response) {
+      // response status 
+      const status = response.status;
       // save JWT to local storage
       localStorage.setItem('accessToken', response.data.token);  
       return

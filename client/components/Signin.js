@@ -30,8 +30,6 @@ class Signin extends Component {
     }).then(function() {
       // modal closed
       this.setState({modalOpen: false});
-      //redirect to home if successful
-      this.props.history.push('/');
     }.bind(this));
   }
 
