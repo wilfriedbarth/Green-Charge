@@ -7,7 +7,10 @@ const {
   updateCountryByCode
 } = require('../queries/db/countryQueries');
 const { requestAll } = require('../queries/co2-signal-api/apiQueries');
-const { predictChargeState } = require('./charger.js');
+const { 
+  predictChargeState,
+  dispatchChargeState
+} = require('./chargeHelper.js');
 
 /**
  * getAndSaveApiData() hits CO2 Signal API with list of countries we
@@ -24,51 +27,41 @@ function getAndSaveApiData() {
           const { 
             status,
             statusText,
-            data: {
-              countryCode,
-              data: {
-                carbonIntensity,
-                exchange,
-                fossilFuelPercentage,
-                price,
-                production,
-                storage
-              },
-              units
-            }
+            data
           } = request.value(); 
 
           const props = {
-            countryCode,
+            countryCode: data.countryCode,
             updatedAt: moment().format(),
             $push: {
               data: {
                 createdAt: moment().format(),
-                carbonIntensity: carbonIntensity || null,
-                exchange: exchange || null,
-                fossilFuelPercentage: fossilFuelPercentage || null,
-                price: price || null,
-                production: production || null,
-                storage: storage || null,
+                carbonIntensity: data.data.carbonIntensity || null,
+                exchange: data.data.exchange || null,
+                fossilFuelPercentage: data.data.fossilFuelPercentage || null,
+                price: data.data.price || null,
+                production: data.data.production || null,
+                storage: data.data.storage || null,
                 status,
                 statusText
               }
             },
-            units: units || null
+            units: data.units || null
           };
 
           return updateCountryByCode(
-            countryCode,
+            data.countryCode,
             props
           ).reflect();
         } else if (request.isRejected()) {
+           
           const { 
-            config: { params: { countryCode } },
-            response: { status, statusText }
+            config,
+            response
           } = request.reason();
            
           const props = {
-            countryCode,
+            countryCode: config.params.countryCode,
             updatedAt: moment().format(),
             $push: {
               data: {
@@ -79,8 +72,8 @@ function getAndSaveApiData() {
                 price: null,
                 production: null,
                 storage: null,
-                status,
-                statusText
+                status: response.status,
+                statusText: response.statusText
               }
             },
             units: null
@@ -97,9 +90,8 @@ function getAndSaveApiData() {
       console.log('New API Data successfully saved to database!');
       return Promise.all(requests.map(request => {
         if (request.isFulfilled()) {
-          const { data } = request.value();
-
-          return predictChargeState(data);
+          const { countryCode, data } = request.value();
+          return predictChargeState(countryCode, data);
         } else {
           console.log(request.reason());
         }

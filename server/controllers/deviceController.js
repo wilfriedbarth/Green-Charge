@@ -4,6 +4,10 @@ const axios = require('axios');
 // local dependencies
 const User = require('../models/User');
 
+module.exports = {
+
+};
+
 // get device status
 exports.getStatus = function(req, res, next) {
 

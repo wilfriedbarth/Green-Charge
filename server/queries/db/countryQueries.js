@@ -8,9 +8,9 @@ module.exports = {
    * @return {promise} - promise containing fetched data or
    * an error.
    */
-  fetchCountryByCode(code) {
+  fetchCountryByCode(countryCode) {
     return Country.findOne(
-      { countryCode: code }
+      { countryCode }
     ).exec();
   },
   /**
@@ -22,9 +22,9 @@ module.exports = {
    * @return {promise} - promise containing fetched data or an
    * error.
    */
-  updateCountryByCode(code, props) {
+  updateCountryByCode(countryCode, props) {
     return Country.findOneAndUpdate(
-      { countryCode: code },
+      { countryCode },
       props,
       { upsert: true, new: true }
     ).exec();

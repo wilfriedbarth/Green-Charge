@@ -33,7 +33,4 @@ router.get('/account', requireAuth, function(req,res){
 })
 
 // configure device routes
-router.get('/device/status', requireAuth, deviceController.getStatus);
-router.post('/device/set:pwr', requireAuth, deviceController.setStatus);
-
 module.exports = router;

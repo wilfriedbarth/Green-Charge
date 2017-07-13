@@ -8,9 +8,9 @@ const morgan = require('morgan');
 const path = require('path');
 const mongoose = require('mongoose');
 // import local dependencies
-const timerInit = require('./helpers/timer.js');
-const Country = require('./models/Country.js');
-const User = require('./models/User.js');
+const timerInit = require('./helpers/timeHelper');
+const Country = require('./models/Country');
+const User = require('./models/User');
 const apiRoutes = require('./routes/apiRoutes');
 
 // initialize express app
