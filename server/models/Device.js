@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose; 
 
-const { setCharger } = require('../helpers/deviceHelper');
+const { setParticleStatus } = require('../queries/particle-api/apiQueries');
 
 const deviceSchema = new Schema({
   particleId: { type: String, unique: true, trim: true },
@@ -17,9 +17,9 @@ deviceSchema.post('save', function(device) {
   const { particleId, auto, chargingStatus } = device;
 
   if (auto && chargingStatus) {
-    setCharger(particleId, 'pwr', 'on');
+    setParticleStatus(particleId, 'pwr', 'on');
   } else if (auto && !chargingStatus) {
-    setCharger(particleId, 'pwr', 'off');
+    setParticleStatus(particleId, 'pwr', 'off');
   }
   
 });
