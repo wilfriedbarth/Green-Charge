@@ -16,17 +16,27 @@ const authCaller = {
     .then(function(response) {
       // save JWT to local storage
       localStorage.setItem('accessToken', response.data.token);
-      return
+      return;
     });
   },
 
   newUser(user) {
-    return axios.post(`/api/signup`, user).then(function(response) {
+    return axios.post(`/api/signup`, user)
+    .catch(function(error) {
+      console.log(error.response.status);
+      if(error.response.status.toString().startsWith('5')) {
+        console.log('User Already Exists');
+        return Promise.reject(error);
+      } else {
+        console.log(error.response);
+      }
+    })
+    .then(function(response) {
       // response status 
       const status = response.status;
       // save JWT to local storage
       localStorage.setItem('accessToken', response.data.token);  
-      return
+      return;
     });
   },
 

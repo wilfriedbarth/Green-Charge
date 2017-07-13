@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Form, Button, Segment, Label, Divider } from 'semantic-ui-react';
+import { Form, Button, Segment, Label, Divider, Message, Icon } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import authCaller from './utils/auth.js';
 
@@ -9,7 +9,8 @@ class Signup extends Component {
 
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      duplicateUser: false
     }
   }
 
@@ -27,10 +28,18 @@ class Signup extends Component {
       email: this.state.email,
       password: this.state.password
     }
-    authCaller.newUser(user).then(function() {
+    authCaller.newUser(user)
+    .then(function() {
       //redirect to home if successful
       this.props.history.push('/');
-    }.bind(this));
+    }.bind(this))
+    .catch(function(error) {
+      // if error signing up (email exists: 500)
+      // display alert by updating state
+      this.setState({duplicateUser: true});
+      // clear form inputs
+      document.getElementById('signupForm').reset();
+    }.bind(this));;
   }
   render() {
     if(this.state.authenticated) {
@@ -38,10 +47,16 @@ class Signup extends Component {
     }
     return(
       <div>
-      <Segment attached='top' raised>
+      {this.state.duplicateUser && 
+      <Message warning attached>
+        <Icon name='warning' />
+          Email address already exists. Try signing in as an existing user. 
+      </Message>
+      }
+      <Segment attached raised>
         <Label color='orange' size='big' ribbon>Sign Up</Label>
         <Divider hidden />
-        <Form onSubmit={this.handleSubmit.bind(this)}> 
+        <Form id="signupForm" onSubmit={this.handleSubmit.bind(this)}> 
           <Form.Field required>
             <label>Email</label>
             <input id='email' placeholder='johnsmith@gmail.com' onChange={this.updateUser.bind(this)} />
