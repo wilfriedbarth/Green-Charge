@@ -6,7 +6,6 @@ class Signout extends Component {
 
   componentWillMount(event) {
     authCaller.signOut();
-    console.log('here');
     //redirect to home if successful
     this.props.history.push('/');
   }

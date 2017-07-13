@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Form, Button, Segment, Label, Divider, Modal } from 'semantic-ui-react';
+import { Form, Button, Segment, Label, Divider, Modal, Message, Icon } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import authCaller from './utils/auth.js';
 
@@ -11,6 +11,7 @@ class Signin extends Component {
       email: "",
       password: "",
       modalOpen: true,
+      badLogin: false
     }
   }
 
@@ -27,9 +28,17 @@ class Signin extends Component {
     authCaller.signIn({
       email: this.state.email, 
       password: this.state.password
-    }).then(function() {
+    })
+    .then(function() {
       // modal closed
       this.setState({modalOpen: false});
+    }.bind(this))
+    .catch(function(error) {
+      // if error logging in (invalid email or password) 
+      // display alert by updating state
+      this.setState({badLogin: true});
+      // clear form inputs
+      document.getElementById('loginForm').reset();
     }.bind(this));
   }
 
@@ -37,10 +46,16 @@ class Signin extends Component {
     return(
       <Modal id='signin' basic closeOnDimmerClick={false} closeOnEscape={false} dimmer={'blurring'} open={this.state.modalOpen}>
         <Modal.Content>
-        <Segment attached='top' raised>
+        {this.state.badLogin && 
+        <Message negative attached>
+          <Icon name='warning' />
+            Invalid email or password. Try logging in again or register as a new user.
+        </Message>
+          }
+        <Segment attached raised>
           <Label color='green' size='big' ribbon>Sign In</Label>
           <Divider hidden />
-          <Form onSubmit={this.handleSubmit.bind(this)}> 
+          <Form id='loginForm 'onSubmit={this.handleSubmit.bind(this)}> 
             <Form.Field required>
               <label>Email</label>
               <input id='email' placeholder='johnsmith@gmail.com' onChange={this.updateUser.bind(this)} />
