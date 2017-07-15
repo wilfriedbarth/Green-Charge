@@ -12,32 +12,8 @@ const timerInit = require('./helpers/timeHelper');
 const Country = require('./models/Country');
 const User = require('./models/User');
 const apiRoutes = require('./routes/apiRoutes');
-
-// initialize express app
-const app = express();
-app.use(bodyParser.json());
-app.use(bodyParser.text());
-app.use(bodyParser.urlencoded({ extended: true}));
-app.use(morgan('dev'));
-
-// serve react app only in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/dist')));
-}
-// import routes for controllers
-app.use('/api', apiRoutes);
-
-// any other routes other than api routes will serve react app in production
-if (process.env.NODE_ENV === 'production') {
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-  });
-}
  
-// set port
-const PORT = process.env.PORT || 3000;
-
-// configure promise to use bluebird
+// configure mongoose to use bluebird promises
 mongoose.Promise = Promise;
 // Database configuration with mongoose
 if (process.env.NODE_ENV === 'development') {
@@ -57,6 +33,32 @@ db.once('open', function() {
   // start timer when mongoose has successfully connected
   timerInit();
 });
+
+// initialize express app
+const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.text());
+app.use(bodyParser.urlencoded({ extended: true}));
+app.use(morgan('dev'));
+// import routes for controllers
+app.use('/api', apiRoutes);
+// serve react app only in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/dist')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+  });
+}
+// configure error handling middleware
+app.use((err, req, res, next) => {
+  if (err) {
+    res.sendStatus(err.status || 500).send({ error: err });
+  } else {
+    next();
+  }
+});
+// set port
+const PORT = process.env.PORT || 3000;
 
 // start server
 app.listen(PORT, function() {
