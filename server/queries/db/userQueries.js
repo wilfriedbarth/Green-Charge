@@ -8,7 +8,7 @@ module.exports = {
     return User.findById(id).exec();
   },
   createUser(props) {
-    return User.create(props).exec();
+    return User.create(props);
   },
   updateUser(id, props) {
     return User.findByIdAndUpdate(id, props).exec();

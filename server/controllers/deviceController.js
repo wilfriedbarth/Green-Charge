@@ -7,7 +7,8 @@ const {
 
 const {
   fetchDevicesForUser,
-  updateDeviceAuto
+  updateDeviceAuto,
+  setParticleOwnership
 } = require('../queries/db/deviceQueries.js');
 
 // local dependencies
@@ -61,6 +62,11 @@ module.exports = {
 
     return updateDeviceAuto(id, auto)
       .then(result => res.json(result))
+  setOwnership(req, res, next){
+    const { deviceId, userId } = req.body;
+
+    return setParticleOwnership(deviceId, userId)
+      .then(userId => res.json(userId))
       .catch(next);
   }
 };
