@@ -5,7 +5,7 @@ module.exports = {
   fetch(req, res, next) {
     const { code } = req.params;
 
-    fetchCountryByCode(code)
+    return fetchCountryByCode(code)
       .then(data => res.json(data))
       .catch(err => next(err));
   }

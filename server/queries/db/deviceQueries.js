@@ -15,5 +15,8 @@ module.exports = {
       deviceId,
       { auto }
     ).exec();
+  },
+  createDevice(props) {
+    return Device.create(props); 
   }
 };
