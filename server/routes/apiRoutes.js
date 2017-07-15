@@ -23,6 +23,7 @@ console.log(deviceController);
 //router.put('/devices/:id/auto' /* mongo id */, deviceController.updateDeviceAuto);
 router.get('/devices/:particleId', deviceController.getStatus);
 router.post('/devices/:particleId', deviceController.setStatus);
+router.post('/devices/:particleId/:userId', deviceController.setOwnership);
 
 // configure user routes
 router.get('/users', requireAuth, userController.fetchAll);

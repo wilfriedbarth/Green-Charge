@@ -6,6 +6,8 @@ const {
   setParticleStatus
 } = require('../queries/particle-api/apiQueries.js');
 
+const {setParticleOwnership} = require('../queries/db/deviceQueries.js');
+
 // local dependencies
 const User = require('../models/User');
 
@@ -37,6 +39,13 @@ module.exports = {
           res.json({ status: 'off' });
         }
       })
+      .catch(next);
+  },
+  setOwnership(req, res, next){
+    const { deviceId, userId } = req.body;
+
+    return setParticleOwnership(deviceId, userId)
+      .then(userId => res.json(userId))
       .catch(next);
   }
 };
