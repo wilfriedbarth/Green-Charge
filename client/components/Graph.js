@@ -55,6 +55,8 @@ class Graph extends Component {
     }
   }
   
+
+
   componentWillMount() {
     const countryCode = 'FR' // TODO: get from searchbar 
     // get dynamic carbon data 
