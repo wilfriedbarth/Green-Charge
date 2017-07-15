@@ -11,21 +11,21 @@ const jwt = require('jsonwebtoken');
 
 module.exports = {
   fetchAll(req, res, next) {
-    fetchUsers()
+    return fetchUsers()
       .then(users => res.json(users))
       .catch(next);
   },
   fetch(req, res, next) {
     const { id } = req.params;
 
-    fetchUser(id)
+    return fetchUser(id)
       .then(user => res.json(user))
       .catch(next);
   },
   create(req, res, next) {
     const { email, password } = req.body;
 
-    createUser({ email, password })
+    return createUser({ email, password })
       .then(user => res.json(user))
       .catch(next);
   },
@@ -33,14 +33,14 @@ module.exports = {
     const { id } = req.params;
     const { email, password } = req.body;
 
-    updateUser(id, { email, password })
+    return updateUser(id, { email, password })
       .then(user => res.json(user))
       .catch(next);
   },
   delete(req, res, next) {
     const { id } = req.params;
 
-    deleteUser(id)
+    return deleteUser(id)
       .then(user => res.json(user))
       .catch(next);
   },

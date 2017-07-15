@@ -1,6 +1,6 @@
 const { updateDevicesByCountry } = require('../queries/db/deviceQueries');
  
-function predictChargeState(countryCode, data, sampleSize = 2, sensitivity = 0.25) {
+function predictChargeState(countryCode, data, sampleSize = 2, sensitivity = 0.5) {
   // check that there are at least five records. If there are, 
   // compute average change over past hour and dispatch new
   // chargeState.
@@ -28,17 +28,12 @@ function predictChargeState(countryCode, data, sampleSize = 2, sensitivity = 0.2
       return diff * diff;
     })));
 
-    console.log(carbonIntensitySTD);
-
-
-    if (Math.abs(carbonIntensities[-1] - carbonIntensityAverage) > carbonIntensitySTD * sensitivity) {
-      if (carbonIntensities[-1] - carbonIntensityAverage > 0) {
+    if (Math.abs(carbonIntensities[carbonIntensities.length - 1] - carbonIntensityAverage) > carbonIntensitySTD * sensitivity) {
+      if (carbonIntensities[carbonIntensities.length - 1] - carbonIntensityAverage > 0) {
         // if carbonIntensity is increasing, set charge state to false
-        console.log('second');
         return dispatchChargeState(countryCode, false);
-      } else if (carbonIntensities[-1] - carbonIntensityAverage < 0) {
+      } else if (carbonIntensities[carbonIntensities.length - 1] - carbonIntensityAverage < 0) {
         // if carbonIntensity is decreasing, set charge state to true
-        console.log('third');
         return dispatchChargeState(countryCode, true);
       }
     } else {
@@ -55,12 +50,10 @@ function predictChargeState(countryCode, data, sampleSize = 2, sensitivity = 0.2
 }
 
 function dispatchChargeState(countryCode, chargeState = null) {
-  /*
   if (chargeState !== null) {
-    updateDevicesByCountry(countryCode, { chargingStatus: chargeState })
+    return updateDevicesByCountry(countryCode, { chargingStatus: chargeState })
       .catch(err => console.log(err));
   }
-  */
 }
 
 module.exports = {

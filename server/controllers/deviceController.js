@@ -1,12 +1,15 @@
 require('dotenv').config();
-const axios = require('axios');
 
 const {
   getParticleStatus,
   setParticleStatus
 } = require('../queries/particle-api/apiQueries.js');
 
-const {setParticleOwnership} = require('../queries/db/deviceQueries.js');
+const {
+  fetchDevicesForUser,
+  updateDeviceAuto,
+  setParticleOwnership
+} = require('../queries/db/deviceQueries.js');
 
 // local dependencies
 const User = require('../models/User');
@@ -41,6 +44,24 @@ module.exports = {
       })
       .catch(next);
   },
+  getDevicesForUser(req, res, next) {
+    const { userId } = req.params;
+  
+    return fetchDevicesForUser(userId)
+      .then(result => res.json(result))
+      .catch(next);
+  },
+  addDevice(req, res, next) {
+    return createDevice(req.body)
+      .then(result => res.json(result))
+      .catch(next);
+  },
+  updateDevice(req, res, next) {
+    const { id } = req.params;
+    const { auto } = req.body;
+
+    return updateDeviceAuto(id, auto)
+      .then(result => res.json(result))
   setOwnership(req, res, next){
     const { deviceId, userId } = req.body;
 
@@ -49,4 +70,3 @@ module.exports = {
       .catch(next);
   }
 };
-

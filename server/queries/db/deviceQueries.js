@@ -21,5 +21,8 @@ module.exports = {
       deviceId,
       { userId }
     ).exec();
+  },
+  createDevice(props) {
+    return Device.create(props); 
   }
 };
