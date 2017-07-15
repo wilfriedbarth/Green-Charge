@@ -60,8 +60,8 @@ class Graph extends Component {
     }
   }
   
-  componentWillMount() {
-    const countryCode = 'FR' // TODO: get from searchbar 
+  componentWillMount(value) {
+    const countryCode = {value} // TODO: get from searchbar 
     apiCaller.getCountryData(countryCode).then(function(data) {
       this.setState({countryData: data});
     }.bind(this));
