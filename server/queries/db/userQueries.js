@@ -7,11 +7,11 @@ module.exports = {
   fetchUser(id) {
     return User.findById(id).exec();
   },
-  createUser(props) {
-    return User.create(props);
+  createUser({ email, password }) {
+    return User.create({ email, password });
   },
-  updateUser(id, props) {
-    return User.findByIdAndUpdate(id, props).exec();
+  updateUser(id, { email, password }) {
+    return User.findByIdAndUpdate(id, { email, password }).exec();
   },
   deleteUser(id) {
     return User.findByIdAndRemove(id).exec();
