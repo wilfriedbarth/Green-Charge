@@ -16,10 +16,10 @@ module.exports = {
     .then(function (response) {
       const status = response.data.result
       if (!status){
-        return 'off'
+        return 0
       }
       else if (status){
-        return 'on'
+        return 1
     }})
     .catch(function (error) {
       console.log(error);
@@ -33,8 +33,9 @@ module.exports = {
     }))
     .then(function (response) {
       const status = response.data.return_value
-      if (status === 1 && arg === 'on'){return 'on'}
-      else if (status === 0 && arg === 'off'){return 'off'}
+
+      if (status === 1){return 1}
+      else if (status === 0){return 0}
       else {return 'error'}
     }).catch(function (err) {console.log(err);}
     ); //set auto charge

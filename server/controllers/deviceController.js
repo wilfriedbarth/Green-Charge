@@ -20,8 +20,8 @@ module.exports = {
     const { particleId } = req.params;
 
     return getParticleStatus(particleId)
-      .then(res => {
-        const status = res.data.result; 
+      .then(resp => {
+        const status = resp; 
         if (!status) {
           res.json({ status: 'off' });
         } else if (status) {
@@ -35,8 +35,8 @@ module.exports = {
     const { chargingState } = req.body;
 
     return setParticleStatus(particleId, chargingState)
-      .then(res => {
-        const status = res.data.return_value;
+      .then(resp => {
+        const status = resp;
         if (status === 1 && chargingState === 'on') {
           res.json({ status: 'on' });
         } else if (status === 0 && chargingState === 'off') {
