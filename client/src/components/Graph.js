@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Sparklines, SparklinesLine, SparklinesReferenceLine } from 'react-sparklines';
 import { Container, Grid, Checkbox, List } from 'semantic-ui-react';
 import Chart from './Chart';
-import apiCaller from './utils/api.js';
+import { getCountryData }  from '../actions/api';
 
 // graph component 
 class Graph extends Component {
@@ -61,7 +61,7 @@ class Graph extends Component {
   
   componentWillMount() {
     const countryCode = 'US' // TODO: get from searchbar 
-    apiCaller.getCountryData(countryCode).then(function(data) {
+    getCountryData(countryCode).then(function(data) {
       this.setState({countryData: data});
     }.bind(this));
   }

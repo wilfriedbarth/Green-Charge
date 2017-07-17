@@ -6,6 +6,7 @@ const {
 } = require('../queries/particle-api/apiQueries.js');
 
 const {
+  createDevice,
   fetchDevicesForUser,
   updateDeviceAuto,
   setParticleOwnership
@@ -62,6 +63,8 @@ module.exports = {
 
     return updateDeviceAuto(id, auto)
       .then(result => res.json(result))
+      .catch(next);
+  },
   setOwnership(req, res, next){
     const { deviceId, userId } = req.body;
 

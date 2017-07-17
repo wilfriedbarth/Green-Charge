@@ -8,7 +8,7 @@ const URL = 'https://api.particle.io/v1/devices/';
 
 module.exports = {
   getParticleStatus(particleId) {
-    axios.get(`${URL}${particleId}/status`, 
+    return axios.get(`${URL}${particleId}/status`, 
     {headers: {
       'Authorization': 'Bearer ' + process.env.PARTICLE_API,
       'data': process.env.PARTICLE_API
@@ -26,10 +26,10 @@ module.exports = {
     });
   },
   setParticleStatus(particleId, chargingState = 'off') {
-    axios.post(`${URL}${particleId}/pwr`, 
+    return axios.post(`${URL}${particleId}/pwr`, 
     querystring.stringify({
             access_token: process.env.PARTICLE_API,
-            arg: arg
+            arg: chargingState
     }))
     .then(function (response) {
       const status = response.data.return_value

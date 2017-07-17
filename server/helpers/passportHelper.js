@@ -35,7 +35,6 @@ const jwtOptions = {
 };
 
 // create JWT strategy
-debugger;
 const jwtLogin = new jwtStrategy(jwtOptions, (jwtPayload, done) => {
   User.findById(jwtPayload.userId, (err, user) => {
     if (err) { return done(err, false); }

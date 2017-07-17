@@ -11,16 +11,20 @@ const deviceSchema = new Schema({
   chargingStatus: {type: Boolean, default: false}
 });
 
-deviceSchema.post('save', function(device) {
-  // after save to database, send out POST request to
+deviceSchema.post('update', function(device) {
+  // after update to database, send out POST request to
   // device with new chargingStatus
   const { particleId, auto, chargingStatus } = device;
+  console.log(device);
 
+  let newStatus;
   if (auto && chargingStatus) {
-    setParticleStatus(particleId, 'pwr', 'on');
+    newStatus = setParticleStatus(particleId, 'pwr', 'on');
   } else if (auto && !chargingStatus) {
-    setParticleStatus(particleId, 'pwr', 'off');
+    newStatus = setParticleStatus(particleId, 'pwr', 'off');
   }
+
+  console.log(newStatus);
   
 });
 
