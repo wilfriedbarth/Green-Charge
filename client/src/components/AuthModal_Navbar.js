@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Menu, Modal, Form, Button, Message } from 'semantic-ui-react';
-import { signUp, signIn } from '../actions/api'
 
 class AuthModal_Navbar extends Component {
   constructor(props) {
@@ -22,6 +21,7 @@ class AuthModal_Navbar extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props.authenticated);
     if (!this.props.authenticated) {
       this.setState({ open: true });
     }
@@ -51,9 +51,9 @@ class AuthModal_Navbar extends Component {
     event.preventDefault();
     const { email, password } = this.state;
     if (this.state.signUp) {
-      signUp({ email, password })
+      this.props.handleSignUp({ email, password })
     } else {
-      signIn({ email, password })
+      this.props.handleSignIn({ email, password })
     }
     this.setState({ open: false, email: '', password: '' });
   }
