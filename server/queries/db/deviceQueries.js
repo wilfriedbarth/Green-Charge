@@ -17,12 +17,12 @@ module.exports = {
     ).exec();
   }, 
   setParticleOwnership(deviceId, userId){
-    return Device.update(
+    return Device.findByIdAndUpdate(
       deviceId,
       { userId }
     ).exec();
   },
-  createDevice(props) {
-    return Device.create(props); 
+  createDevice(particleId) {
+    return Device.create({particleId}); 
   }
 };

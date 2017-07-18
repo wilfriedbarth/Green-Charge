@@ -47,21 +47,21 @@ module.exports = {
   },
   getDevicesForUser(req, res, next) {
 
-    return res.json({test: 'test' });
-  
-    /*
-    return fetchDevicesForUser(userId)
+    
+    return fetchDevicesForUser(req.user._id)
       .then(result => res.json(result))
       .catch(next);
-      */
+      
   },
   addDevice(req, res, next) {
-    return createDevice(req.body)
+    console.log(req.body, res);
+    const {particleId} = req.body;
+    return createDevice(particleId)
       .then(result => res.json(result))
       .catch(next);
   },
   updateDevice(req, res, next) {
-    const { id } = req.params;
+    console.log(req);
     const { auto } = req.body;
 
     return updateDeviceAuto(id, auto)
@@ -69,10 +69,10 @@ module.exports = {
       .catch(next);
   },
   setOwnership(req, res, next){
-    const { deviceId, userId } = req.body;
+    const { deviceId } = req.body;
 
-    return setParticleOwnership(deviceId, userId)
-      .then(userId => res.json(userId))
+    return setParticleOwnership(deviceId, req.user._id)
+      .then(userId => res.send(userId))
       .catch(next);
   }
 };

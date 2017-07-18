@@ -19,11 +19,12 @@ router.get('/countries/:code', countryController.fetch);
 
 // configure device routes
 router.get('/devices', requireAuth, deviceController.getDevicesForUser);
-router.put('/devices/:id/auto' /* mongo id */, deviceController.updateDevice);
+router.put('/devices/:id/auto', deviceController.updateDevice);
+router.post('/devices/add', deviceController.addDevice);
 router.get('/devices/:particleId', deviceController.getStatus);
+router.post('/devices/own', requireAuth, deviceController.setOwnership);
 router.post('/devices/:particleId', deviceController.setStatus);
-router.post('/devices', deviceController.addDevice);
-router.post('/devices/:particleId/:userId', deviceController.setOwnership);
+
 
 // configure auth routes
 router.post('/signin', requireSignIn, authController.signIn);
