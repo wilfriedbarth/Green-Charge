@@ -1,6 +1,5 @@
 import axios from 'axios';
 import productionData from './productionData';
-import apiCaller from '../actions/api';
 
 const apiCaller = {
   getCountryData(countryCode) {
@@ -39,11 +38,12 @@ const apiCaller = {
       const deviceId = response.data._id;
       // set userId on device to current user id 
       return axios.post('/api/devices/own', {
-        deviceId: deviceId
+        particleId: particleId
         }, 
         {
           headers: { Authorization: accessToken }
         }).then(function(response) {
+          console.log(response);
         return response.data;
       });
     });
@@ -53,7 +53,7 @@ const apiCaller = {
     return axios.put(`/api/devices/${deviceId}/auto`, {
       auto: auto
     }).then(function(response) {
-      console.log(response.data);
+      return response.data;
     })
   }, 
   getStatus(particleId) {
@@ -66,6 +66,7 @@ const apiCaller = {
       }
     });
   }, 
+
   setStatus(particleId, chargingState) {
     return axios.post(`/api/devices/${particleId}`, {
       chargingState: chargingState
@@ -74,5 +75,9 @@ const apiCaller = {
     });
   }
 }
+
+// apiCaller.getStatus('440036000447343339373536');
+apiCaller.toggleAutoCharge("596e7892c77fb2944566480f", false);
+
 
 export default apiCaller;

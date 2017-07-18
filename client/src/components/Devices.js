@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Item, Icon, Checkbox, Button } from 'semantic-ui-react';
+import apiCaller from '../actions/api.js';
 
 class Devices extends Component {
   constructor(props) {
@@ -13,30 +14,24 @@ class Devices extends Component {
 
   componentWillMount() {
     this.getDevices();
-    // this.setState({devices: [
-    //   {
-    //     'particleId':'1e0032123447343149111039',
-    //     'userId': '12o319',
-    //     'auto':true,
-    //     'chargingStatus': 'off',
-    //     'countryCode': 'US'
-    //   }, 
-    //   {
-    //     'particleId':'1e0032199993748362955326',
-    //     'userId': '1231890',
-    //     'auto': true,
-    //     'chargingStatus': 'on',
-    //     'countryCode': 'FR'
-    //   },
-    //   {
-    //     'particleId':'1e0032123582724834444321',
-    //     'userId': '12o8316',
-    //     'auto': false,
-    //     'chargingStatus': 'off',
-    //     'countryCode': 'US'
-    //   }
-    // ]
-    // });
+  }
+
+  // submit user input for particleID
+  handleSubmit(event) {
+   apiCaller.addDevice(this.state.newParticleId).then(function(data) {
+      // refresh state post db-update
+      this.getDevices();
+    }.bind(this));
+    // clear form inputs
+    document.getElementById('newDeviceForm').reset();
+  }
+
+  toggleAuto(event, data) {
+    apiCaller.toggleAutoCharge(data.id, data.checked).then(function(data) {
+      // refresh state post db-update
+      this.getDevices();
+    }.bind(this));
+
   }
 
   getDevices() {
@@ -52,15 +47,6 @@ class Devices extends Component {
     this.setState(newState);
   }
 
-  // submit user input for particleID
-  handleSubmit(event) {
-   apiCaller.addDevice(this.state.newParticleId).then(function(data) {
-      console.log(data);
-      // refresh state 
-      this.getDevices();
-    }.bind(this));
-  }
-
   turnOn(event, data) {
     // TODO apiCaller 
     console.log('turn charge on');
@@ -69,12 +55,6 @@ class Devices extends Component {
 
   turnOff(event, data) {
     //
-  }
-
-  toggleAuto(event, data) {
-    // TODO apiCaller
-    console.log('auto' + data.checked);
-    console.log(data.id);
   }
 
   render() {
@@ -96,7 +76,7 @@ class Devices extends Component {
                     <p>{device.particleId}</p>
                   </Item.Meta>
                   <Item.Description>
-                    <Checkbox id={device.particleId} label='Auto' toggle defaultChecked={device.auto} onChange={this.toggleAuto}/>
+                    <Checkbox id={device._id} label='Auto' toggle defaultChecked={device.auto} onChange={this.toggleAuto.bind(this)}/>
                   </Item.Description>
                   <Item.Extra>
                     {!device.auto && !device.chargingStatus &&
@@ -111,7 +91,7 @@ class Devices extends Component {
             ))}
         </Item.Group>
         }
-        <Form onSubmit={this.handleSubmit.bind(this)}>
+        <Form id='newDeviceForm' onSubmit={this.handleSubmit.bind(this)}>
           <Form.Input id='newParticleId' label='Add particle device by id' type='text' onChange={this.handleChange.bind(this)} />
           <Form.Button>Add Device</Form.Button>
         </Form>
