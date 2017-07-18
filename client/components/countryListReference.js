@@ -1,7 +1,7 @@
 const countryOptions =  
 [
-  {key: 'US', value: 'US', text: 'United States'},
-  {key: 'CA-AB', value: 'CA-AB', text: 'Alberta'},
+  {value: 'US', text: 'United States'},
+  {value: 'CA-AB', text: 'Alberta'},
   {value: 'AL', text: 'Albania'},
   {value: 'AT', text: 'Austria'},
   {value: 'BY', text: 'Belarus'},

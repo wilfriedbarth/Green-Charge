@@ -57,8 +57,9 @@ class Graph extends Component {
   
 
 
-  componentWillMount() {
-    const countryCode = 'FR' // TODO: get from searchbar 
+  componentWillReceiveProps(nextProps) {
+    const countryCode = nextProps.selectedCountry;
+    console.log(nextProps.selectedCountry);
     // get dynamic carbon data 
     apiCaller.getCountryData(countryCode).then(function(data) {
       const countryData = this.state.countryData;
@@ -93,6 +94,7 @@ class Graph extends Component {
     const oil = this.state.countryData.production.map(obj => (obj.oil));
 
     return(
+      // <p>{this.state.value}</p>
       <Grid divided='vertically'> 
         <Grid.Row columns={3}>
           <Grid.Column>
@@ -174,6 +176,7 @@ class Graph extends Component {
           }
         </Grid.Row>
       </Grid>
+
     )
   }
 }

@@ -10,8 +10,15 @@ class Main extends Component {
     super(props);
 
     this.state = {
-      authenticated: false
+      authenticated: false,
+      selectedCountry: ""
     }
+
+    this.handleChangeCountry = this.handleChangeCountry.bind(this);
+  }
+
+  handleChangeCountry(country) {
+    this.setState({selectedCountry: country})
   }
 
   componentWillMount() {
@@ -27,8 +34,9 @@ class Main extends Component {
         <Grid>
           <Grid.Row>
             <Grid.Column width={13}>
-              <SearchBar />
-              <Graph />
+              <SearchBar selectedCountry={this.state.selectedCountry}
+              handleChangeCountry={this.handleChangeCountry}/>
+              <Graph selectedCountry={this.state.selectedCountry}/>
             </Grid.Column>
             <Grid.Column width={3}>
               <Devices />
@@ -37,6 +45,7 @@ class Main extends Component {
           {!this.state.authenticated &&
             <Signin />
             }
+            test: {this.state.selectedCountry}
         </Grid>
     )
   }
