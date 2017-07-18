@@ -10,7 +10,6 @@ class Signin extends Component {
     this.state = {
       email: "",
       password: "",
-      modalOpen: true,
       badLogin: false
     }
   }
@@ -30,10 +29,6 @@ class Signin extends Component {
       email: this.state.email, 
       password: this.state.password
     })
-    .then(function() {
-      // modal closed
-      this.setState({modalOpen: false});
-    }.bind(this))
     .catch(function(error) {
       // if error logging in (invalid email or password) 
       // display alert by updating state
@@ -45,7 +40,7 @@ class Signin extends Component {
 
   render() {
     return(
-      <Modal id='signin' basic closeOnDimmerClick={false} closeOnEscape={false} dimmer={'blurring'} open={this.state.modalOpen}>
+      <Modal id='signin' basic closeOnDimmerClick={false} closeOnEscape={false} dimmer={'blurring'} open={!this.props.authenticated}>
         <Modal.Content>
         {this.state.badLogin && 
         <Message negative attached>

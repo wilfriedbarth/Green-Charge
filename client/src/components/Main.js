@@ -20,7 +20,7 @@ class Main extends Component {
             </Grid.Column>
           </Grid.Row>
           {!this.props.authenticated &&
-            <Signin signIn={this.props.signIn.bind(this)}/>
+            <Signin authenticated={this.props.authenticated} signIn={this.props.signIn.bind(this)}/>
             }
         </Grid>
     )
