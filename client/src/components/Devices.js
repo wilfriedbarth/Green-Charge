@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Item, Icon, Checkbox } from 'semantic-ui-react';
+import { Form, Item, Icon, Checkbox, Button } from 'semantic-ui-react';
 
 class Devices extends Component {
   constructor(props) {
@@ -49,6 +49,11 @@ class Devices extends Component {
     console.log(this.state.newParticleId);
   }
 
+  forceCharge(event) {
+    // TODO
+    console.log('turn charge on');
+  }
+
   render() {
     return (
       <div>
@@ -69,6 +74,9 @@ class Devices extends Component {
                   </Item.Meta>
                   <Item.Description>
                     <Checkbox label='Auto' toggle defaultChecked={device.auto}/>
+                    {!device.auto &&
+                      <Button basic size='mini' onClick={this.forceCharge} color='olive'><Icon name='plug' color='olive'/>Charge</Button>
+                    }
                   </Item.Description>
                 </Item.Content>
               </Item>
