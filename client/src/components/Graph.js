@@ -67,7 +67,7 @@ class Graph extends Component {
       this.setState({countryData: countryData});
     }.bind(this));
     // get static production data 
-    const production = apiCaller.getStaticData();
+    const production = apiCaller.getProductionData();
     const countryData = this.state.countryData;
     countryData.production = production;
     this.setState({countryData: countryData});

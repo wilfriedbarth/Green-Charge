@@ -12,10 +12,21 @@ const apiCaller = {
         return carbonIntensity;
     });
   },
-  getStaticData() {
-    // get production data from response object
+
+   // get static production data from response object
+  getProductionData() {
     const production = productionData.map(obj => (obj.production));
     return production;
+  },
+
+  // get all devices associated with current user 
+  getUserDevices() {
+    const accessToken = localStorage.getItem('accessToken');
+    return axios.get('/api/devices', {
+      headers: {'Authorization': accessToken}
+    }).then(function(response) {
+      console.log(response.data);
+    });
   }
 }
 
