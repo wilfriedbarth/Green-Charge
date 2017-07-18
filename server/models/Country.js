@@ -9,7 +9,9 @@ const dataSchema = new Schema({
   fossilFuelPercentage: Number,
   price: Number,
   production: { type: Schema.Types.Mixed },
-  storage: { type: Schema.Types.Mixed }
+  storage: { type: Schema.Types.Mixed },
+  status: Number,
+  statusText: String
 });
 
 // create document schema for country

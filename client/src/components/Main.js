@@ -42,8 +42,8 @@ class Main extends Component {
               <Devices />
             </Grid.Column>
           </Grid.Row>
-          {!this.state.authenticated &&
-            <Signin />
+          {!this.props.authenticated &&
+            <Signin authenticated={this.props.authenticated} signIn={this.props.signIn.bind(this)}/>
             }
             test: {this.state.selectedCountry}
         </Grid>

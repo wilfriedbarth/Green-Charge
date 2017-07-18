@@ -43,7 +43,5 @@ module.exports = [
   'RU-KGD',
   'SE',
   'SI',
-  'SK',
-  'TR',
-  'UA'
+  'SK'
 ];

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Form, Button, Segment, Label, Divider, Modal, Message, Icon } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
-import authCaller from './utils/auth.js';
+import authCaller from '../actions/auth.js';
 
 class Signin extends Component {
   constructor(props) {
@@ -10,7 +10,6 @@ class Signin extends Component {
     this.state = {
       email: "",
       password: "",
-      modalOpen: true,
       badLogin: false
     }
   }
@@ -24,15 +23,12 @@ class Signin extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    this.props.signIn(); // change auth status in App component
         // axios post to get JWT 
     authCaller.signIn({
       email: this.state.email, 
       password: this.state.password
     })
-    .then(function() {
-      // modal closed
-      this.setState({modalOpen: false});
-    }.bind(this))
     .catch(function(error) {
       // if error logging in (invalid email or password) 
       // display alert by updating state
@@ -44,7 +40,7 @@ class Signin extends Component {
 
   render() {
     return(
-      <Modal id='signin' basic closeOnDimmerClick={false} closeOnEscape={false} dimmer={'blurring'} open={this.state.modalOpen}>
+      <Modal id='signin' basic closeOnDimmerClick={false} closeOnEscape={false} dimmer={'blurring'} open={!this.props.authenticated}>
         <Modal.Content>
         {this.state.badLogin && 
         <Message negative attached>

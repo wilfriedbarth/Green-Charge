@@ -7,7 +7,10 @@ const {
   updateCountryByCode
 } = require('../queries/db/countryQueries');
 const { requestAll } = require('../queries/co2-signal-api/apiQueries');
-const { predictChargeState } = require('./charger.js');
+const { 
+  predictChargeState,
+  dispatchChargeState
+} = require('./chargeHelper.js');
 
 /**
  * getAndSaveApiData() hits CO2 Signal API with list of countries we
@@ -21,20 +24,26 @@ function getAndSaveApiData() {
     .then(requests => {
       return Promise.all(requests.map(request => {
         if (request.isFulfilled()) {
-          const { data } = request.value(); 
+          const { 
+            status,
+            statusText,
+            data
+          } = request.value(); 
 
           const props = {
-            countryCode: data.countryCode || null,
+            countryCode: data.countryCode,
             updatedAt: moment().format(),
             $push: {
               data: {
                 createdAt: moment().format(),
                 carbonIntensity: data.data.carbonIntensity || null,
                 exchange: data.data.exchange || null,
-                fossilFuelPercentage: data.data.fossilfuelPercentage || null,
+                fossilFuelPercentage: data.data.fossilFuelPercentage || null,
                 price: data.data.price || null,
                 production: data.data.production || null,
-                storage: data.data.storage || null
+                storage: data.data.storage || null,
+                status,
+                statusText
               }
             },
             units: data.units || null
@@ -44,8 +53,36 @@ function getAndSaveApiData() {
             data.countryCode,
             props
           ).reflect();
-        } else {
-          console.log(request.reason());
+        } else if (request.isRejected()) {
+           
+          const { 
+            config,
+            response
+          } = request.reason();
+           
+          const props = {
+            countryCode: config.params.countryCode,
+            updatedAt: moment().format(),
+            $push: {
+              data: {
+                createdAt: moment().format(),
+                carbonIntensity: null,
+                exchange: null,
+                fossilFuelPercentage: null,
+                price: null,
+                production: null,
+                storage: null,
+                status: response.status,
+                statusText: response.statusText
+              }
+            },
+            units: null
+          };
+
+          return updateCountryByCode(
+            countryCode,
+            props
+          ).reflect();
         }
       }));
     })
@@ -53,9 +90,8 @@ function getAndSaveApiData() {
       console.log('New API Data successfully saved to database!');
       return Promise.all(requests.map(request => {
         if (request.isFulfilled()) {
-          const { data } = request.value();
-
-          return predictChargeState(data);
+          const { countryCode, data } = request.value();
+          return predictChargeState(countryCode, data);
         } else {
           console.log(request.reason());
         }

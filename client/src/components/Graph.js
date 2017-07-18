@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Sparklines, SparklinesLine, SparklinesReferenceLine } from 'react-sparklines';
 import { Container, Grid, Checkbox, List } from 'semantic-ui-react';
 import Chart from './Chart';
-import apiCaller from './utils/api.js';
+import apiCaller from '../actions/api.js';
 import SearchBar from './Search_Bar';
 
 // graph component 
