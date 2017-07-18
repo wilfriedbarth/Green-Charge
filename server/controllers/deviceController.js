@@ -62,7 +62,9 @@ module.exports = {
 
     return updateDeviceAuto(id, auto)
       .then(result => res.json(result))
-  setOwnership(req, res, next){
+  },
+
+  setOwnership(req, res, next) {
     const { deviceId, userId } = req.body;
 
     return setParticleOwnership(deviceId, userId)

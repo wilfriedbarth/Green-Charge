@@ -6,21 +6,6 @@ import Signin from './Signin';
 import Devices from './Devices';
 
 class Main extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      authenticated: false
-    }
-  }
-
-  componentWillMount() {
-    if(localStorage.getItem('accessToken')) {
-      this.setState({'authenticated': true}); 
-    } else {
-      this.setState({'authenticated': false});
-    }
-  }
 
   render() {
     return(
@@ -34,8 +19,8 @@ class Main extends Component {
               <Devices />
             </Grid.Column>
           </Grid.Row>
-          {!this.state.authenticated &&
-            <Signin />
+          {!this.props.authenticated &&
+            <Signin signIn={this.props.signIn.bind(this)}/>
             }
         </Grid>
     )
