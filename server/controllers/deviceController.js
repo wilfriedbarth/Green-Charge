@@ -47,7 +47,6 @@ module.exports = {
   },
   getDevicesForUser(req, res, next) {
 
-    
     return fetchDevicesForUser(req.user._id)
       .then(result => res.json(result))
       .catch(next);

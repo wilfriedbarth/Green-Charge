@@ -24,6 +24,7 @@ class Signin extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    this.props.signIn(); // change auth status in App component
         // axios post to get JWT 
     authCaller.signIn({
       email: this.state.email, 
