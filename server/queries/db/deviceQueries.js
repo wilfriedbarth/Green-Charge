@@ -18,9 +18,9 @@ module.exports = {
     ).exec();
   }, 
   setParticleOwnership(deviceId, userId){
-
-    return Device.findByIdAndUpdate(
-      deviceId,
+ console.log(deviceId.particleId, userId)
+    return Device.findOneAndUpdate(
+      { particleId: deviceId },
       { userId }
     ).exec();
   },

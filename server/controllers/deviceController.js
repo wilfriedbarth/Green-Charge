@@ -69,7 +69,7 @@ module.exports = {
       .catch(next);
   },
   setOwnership(req, res, next){
-    const { deviceId } = req.body;
+    const deviceId  = req.body.particleId;
 
     return setParticleOwnership(deviceId, req.user._id)
       .then(userId => res.send(userId))
