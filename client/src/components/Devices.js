@@ -12,7 +12,6 @@ class Devices extends Component {
   }
 
   componentWillMount() {
-    // use sample device data for now
     this.setState({devices: [
       {
         'particleId':'1e0032123447343149111039',
@@ -39,27 +38,30 @@ class Devices extends Component {
     });
   }
 
+  // capture user input for particleID in state
   handleChange(event) {
     const newState = {};
     newState[event.target.id] = event.target.value;
     this.setState(newState);
   }
 
+  // submit user input for particleID
   handleSubmit(event) {
+    // TODO apiCaller
+    console.log('add particle by id');
     console.log(this.state.newParticleId);
   }
 
   forceCharge(event, data) {
-    // TODO
-    console.log(data.id);
+    // TODO apiCaller 
     console.log('turn charge on');
+    console.log(data.id);
   }
 
   toggleAuto(event, data) {
-    // TODO
-    console.log(data.checked);
+    // TODO apiCaller
+    console.log('auto' + data.checked);
     console.log(data.id);
-    console.log('toggle auto on/off');
   }
 
   render() {

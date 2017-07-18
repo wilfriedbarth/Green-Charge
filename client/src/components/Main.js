@@ -34,9 +34,11 @@ class Main extends Component {
         <Grid>
           <Grid.Row>
             <Grid.Column width={13}>
-              <SearchBar selectedCountry={this.state.selectedCountry}
-              handleChangeCountry={this.handleChangeCountry}/>
-              <Graph selectedCountry={this.state.selectedCountry}/>
+              <Grid.Row>
+                <SearchBar selectedCountry={this.state.selectedCountry}
+          handleChangeCountry={this.handleChangeCountry}/>
+                <Graph selectedCountry={this.state.selectedCountry}/>
+              </Grid.Row>
             </Grid.Column>
             <Grid.Column width={3}>
               <Devices />

@@ -129,49 +129,49 @@ class Graph extends Component {
           }
           {this.state.graphs.hydro &&
           <Grid.Column>
-            <Chart name={'Hydro Production'} data={hydro} color='orange' units='check units'/>
+            <Chart name={'Hydro Production'} data={hydro} color='orange' units='MW'/>
           </Grid.Column>
           } 
           {this.state.graphs.wind &&
           <Grid.Column>
-            <Chart name={'Wind Production'} data={wind} color='#E500E9' units='check units'/>
+            <Chart name={'Wind Production'} data={wind} color='#E500E9' units='MW'/>
           </Grid.Column>
           }
           {this.state.graphs.solar &&
           <Grid.Column>
-            <Chart name={'Solar Production'} data={solar} color='#F9354C' units='check units'/>
+            <Chart name={'Solar Production'} data={solar} color='#F9354C' units='MW'/>
           </Grid.Column>
           }
 
           {this.state.graphs.nuclear &&
           <Grid.Column>
-            <Chart name={'Nuclear Production'} data={nuclear} color='#F9FF66' units='check units'/>
+            <Chart name={'Nuclear Production'} data={nuclear} color='#F9FF66' units='MW'/>
           </Grid.Column>
           }
           {this.state.graphs.geothermal &&
           <Grid.Column>
-            <Chart name={'Geothermal Production'} data={geothermal} color='#76B0FC' units='check units'/>
+            <Chart name={'Geothermal Production'} data={geothermal} color='#76B0FC' units='MW'/>
           </Grid.Column>
           }
           {this.state.graphs.biomass &&
           <Grid.Column>
-            <Chart name={'Biomass Production'} data={biomass} color='#99FF57' units='check units'/>
+            <Chart name={'Biomass Production'} data={biomass} color='#99FF57' units='MW'/>
           </Grid.Column>
           }
 
           {this.state.graphs.coal &&
           <Grid.Column>
-            <Chart name={'Coal Production'} data={coal} color='#FB0017' units='check units'/>
+            <Chart name={'Coal Production'} data={coal} color='#FB0017' units='MW'/>
           </Grid.Column>
           }
           {this.state.graphs.gas &&
           <Grid.Column>
-            <Chart name={'Gas Production'} data={gas} color='#E0008D' units='check units'/>
+            <Chart name={'Gas Production'} data={gas} color='#E0008D' units='MW'/>
           </Grid.Column>
           }
           {this.state.graphs.oil &&
           <Grid.Column>
-            <Chart name={'Oil Production'} data={oil} color='#F65B07' units='check units'/>
+            <Chart name={'Oil Production'} data={oil} color='#F65B07' units='MW'/>
           </Grid.Column>
           }
         </Grid.Row>
