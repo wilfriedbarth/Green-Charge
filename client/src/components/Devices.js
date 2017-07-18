@@ -49,9 +49,17 @@ class Devices extends Component {
     console.log(this.state.newParticleId);
   }
 
-  forceCharge(event) {
+  forceCharge(event, data) {
     // TODO
+    console.log(data.id);
     console.log('turn charge on');
+  }
+
+  toggleAuto(event, data) {
+    // TODO
+    console.log(data.checked);
+    console.log(data.id);
+    console.log('toggle auto on/off');
   }
 
   render() {
@@ -73,11 +81,13 @@ class Devices extends Component {
                     <p>{device.particleId}</p>
                   </Item.Meta>
                   <Item.Description>
-                    <Checkbox label='Auto' toggle defaultChecked={device.auto}/>
-                    {!device.auto &&
-                      <Button basic size='mini' onClick={this.forceCharge} color='olive'><Icon name='plug' color='olive'/>Charge</Button>
-                    }
+                    <Checkbox id={device.particleId} label='Auto' toggle defaultChecked={device.auto} onChange={this.toggleAuto}/>
                   </Item.Description>
+                  <Item.Extra>
+                    {!device.auto &&
+                      <Button id={device.particleId} basic size='mini' onClick={this.forceCharge} color='olive'><Icon name='plug' color='olive'/>Charge</Button>
+                    }
+                  </Item.Extra>
                 </Item.Content>
               </Item>
             ))}
