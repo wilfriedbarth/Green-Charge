@@ -11,12 +11,14 @@ module.exports = {
     return Device.find({ userId }).exec();
   },
   updateDeviceAuto(deviceId, auto = true) {
-    return Device.findAndUpdateById(
-      particleId,
-      { particleId }
+    
+    return Device.findByIdAndUpdate(
+      deviceId,
+      { auto }
     ).exec();
   }, 
   setParticleOwnership(deviceId, userId){
+
     return Device.findByIdAndUpdate(
       deviceId,
       { userId }
