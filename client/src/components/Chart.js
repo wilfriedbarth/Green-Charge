@@ -23,7 +23,7 @@ class Chart extends Component {
 
           <Grid.Row>
             <Grid.Column width={12}>
-              <Sparklines data={this.props.data} width={800} height={600} style={{background: "#4C4949"}}>
+              <Sparklines limit={30} data={this.props.data} width={800} height={600} style={{background: "#4C4949"}}>
                 <SparklinesLine style={{strokeWidth: 3}} color={this.props.color} />
                 <SparklinesReferenceLine type='avg' style={{ stroke: 'white', strokeOpacity: .5, strokeDasharray: '3, 2', strokeWidth: .75 }} />
               </Sparklines>

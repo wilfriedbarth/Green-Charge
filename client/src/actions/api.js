@@ -1,16 +1,22 @@
-var axios = require('axios');
+import axios from 'axios';
+import productionData from './productionData';
 
-module.exports  = {
+const apiCaller = {
   getCountryData(countryCode) {
-    return axios.get(`/api/countries/${countryCode}`).then(function(response) {
-      return response.data;
+    const accessToken = localStorage.getItem('accessToken');
+    return axios.get(`/api/countries/${countryCode}`, { 
+      headers: {'Authorization': accessToken}
+      }).then(function(response) {
+        // get carbon data from response object
+        const carbonIntensity = response.data.data.map(obj => (obj.carbonIntensity));
+        return carbonIntensity;
     });
   },
-  signUp({ email, password }) {
-    return axios.post('/api/signup', { email, password });
-  },
-  signIn({ email, password }) {
-    return axios.post('/api/signin', { email, password });
+  getStaticData() {
+    // get production data from response object
+    const production = productionData.map(obj => (obj.production));
+    return production;
   }
-};
+}
 
+export default apiCaller;

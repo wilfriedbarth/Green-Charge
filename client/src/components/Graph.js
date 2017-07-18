@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Sparklines, SparklinesLine, SparklinesReferenceLine } from 'react-sparklines';
 import { Container, Grid, Checkbox, List } from 'semantic-ui-react';
 import Chart from './Chart';
-import { getCountryData }  from '../actions/api';
+import apiCaller from '../actions/api.js';
+import SearchBar from './Search_Bar';
 
 // graph component 
 class Graph extends Component {
@@ -12,10 +13,10 @@ class Graph extends Component {
     super(props);
     this.state = {
       countryData: {
-        countryCode: 'NN',
-        data: [
+        countryCode: 'NA',
+        carbonIntensity: [0,0],
+        production: [
         {
-          production: {
             wind: 0,
             solar: 0,
             hydro: 0,
@@ -25,11 +26,8 @@ class Graph extends Component {
             biomass: 0,
             geothermal: 0,
             coal: 0
-          },
-          carbonIntensity: 0
         },
         {
-          production: {
             wind: 0,
             solar: 0,
             hydro: 0,
@@ -39,8 +37,6 @@ class Graph extends Component {
             biomass: 0,
             geothermal: 0,
             coal: 0
-          },
-          carbonIntensity: 0
         }
         ]
       },
@@ -59,11 +55,21 @@ class Graph extends Component {
     }
   }
   
+
+
   componentWillMount() {
-    const countryCode = 'US' // TODO: get from searchbar 
-    getCountryData(countryCode).then(function(data) {
-      this.setState({countryData: data});
+    const countryCode = 'FR' // TODO: get from searchbar 
+    // get dynamic carbon data 
+    apiCaller.getCountryData(countryCode).then(function(data) {
+      const countryData = this.state.countryData;
+      countryData.carbonIntensity = data; 
+      this.setState({countryData: countryData});
     }.bind(this));
+    // get static production data 
+    const production = apiCaller.getStaticData();
+    const countryData = this.state.countryData;
+    countryData.production = production;
+    this.setState({countryData: countryData});
   }
 
   // TODO: checkboxes to filter which graphs visible
@@ -75,16 +81,16 @@ class Graph extends Component {
 
   render() {
     const countryName = this.state.countryData.countryCode;
-    const carbon = this.state.countryData.data.map(obj => (obj.carbonIntensity));
-    const hydro = this.state.countryData.data.map(obj => (obj.production.hydro));
-    const wind = this.state.countryData.data.map(obj => (obj.production.wind));
-    const nuclear = this.state.countryData.data.map(obj => (obj.production.nuclear));
-    const solar = this.state.countryData.data.map(obj => (obj.production.solar));
-    const geothermal = this.state.countryData.data.map(obj => (obj.production.geothermal));
-    const coal = this.state.countryData.data.map(obj => (obj.production.coal));
-    const biomass = this.state.countryData.data.map(obj => (obj.production.biomass));
-    const gas = this.state.countryData.data.map(obj => (obj.production.gas));
-    const oil = this.state.countryData.data.map(obj => (obj.production.oil));
+    const carbon = this.state.countryData.carbonIntensity;
+    const hydro = this.state.countryData.production.map(obj => (obj.hydro));
+    const wind = this.state.countryData.production.map(obj => (obj.wind));
+    const nuclear = this.state.countryData.production.map(obj => (obj.nuclear));
+    const solar = this.state.countryData.production.map(obj => (obj.solar));
+    const geothermal = this.state.countryData.production.map(obj => (obj.geothermal));
+    const coal = this.state.countryData.production.map(obj => (obj.coal));
+    const biomass = this.state.countryData.production.map(obj => (obj.biomass));
+    const gas = this.state.countryData.production.map(obj => (obj.gas));
+    const oil = this.state.countryData.production.map(obj => (obj.oil));
 
     return(
       <Grid divided='vertically'> 
