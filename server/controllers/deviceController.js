@@ -6,6 +6,7 @@ const {
 } = require('../queries/particle-api/apiQueries.js');
 
 const {
+  createDevice,
   fetchDevicesForUser,
   updateDeviceAuto,
   setParticleOwnership
@@ -19,8 +20,8 @@ module.exports = {
     const { particleId } = req.params;
 
     return getParticleStatus(particleId)
-      .then(res => {
-        const status = res.data.result; 
+      .then(resp => {
+        const status = resp; 
         if (!status) {
           res.json({ status: 'off' });
         } else if (status) {
@@ -34,41 +35,43 @@ module.exports = {
     const { chargingState } = req.body;
 
     return setParticleStatus(particleId, chargingState)
-      .then(res => {
-        const status = res.data.return_value;
-        if (status === 1 && chargingState === 'on') {
-          res.json({ status: 'on' });
-        } else if (status === 0 && chargingState === 'off') {
-          res.json({ status: 'off' });
+      .then(resp => {
+        const status = resp;
+        if (status === 1 ) {
+          res.json({ chargingState: 'on' });
+        } else if (status === 0 ) {
+          res.json({ chargingState: 'off' });
         }
       })
       .catch(next);
   },
   getDevicesForUser(req, res, next) {
-    const { userId } = req.params;
-  
-    return fetchDevicesForUser(userId)
+
+    return fetchDevicesForUser(req.user._id)
       .then(result => res.json(result))
       .catch(next);
+      
   },
   addDevice(req, res, next) {
-    return createDevice(req.body)
+    
+    const {particleId} = req.body;
+    return createDevice(particleId)
       .then(result => res.json(result))
       .catch(next);
   },
   updateDevice(req, res, next) {
     const { id } = req.params;
     const { auto } = req.body;
-
+     
     return updateDeviceAuto(id, auto)
       .then(result => res.json(result))
+      .catch(next);
   },
+  setOwnership(req, res, next){
+    const deviceId  = req.body.particleId;
 
-  setOwnership(req, res, next) {
-    const { deviceId, userId } = req.body;
-
-    return setParticleOwnership(deviceId, userId)
-      .then(userId => res.json(userId))
+    return setParticleOwnership(deviceId, req.user._id)
+      .then(userId => res.send(userId))
       .catch(next);
   }
 };

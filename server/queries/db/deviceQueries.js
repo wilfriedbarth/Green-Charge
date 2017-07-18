@@ -11,18 +11,20 @@ module.exports = {
     return Device.find({ userId }).exec();
   },
   updateDeviceAuto(deviceId, auto = true) {
-    return Device.findAndUpdateById(
-      particleId,
-      { particleId }
+    
+    return Device.findByIdAndUpdate(
+      deviceId,
+      { auto }
     ).exec();
   }, 
   setParticleOwnership(deviceId, userId){
-    return Device.update(
-      deviceId,
+ console.log(deviceId.particleId, userId)
+    return Device.findOneAndUpdate(
+      { particleId: deviceId },
       { userId }
     ).exec();
   },
-  createDevice(props) {
-    return Device.create(props); 
+  createDevice(particleId) {
+    return Device.create({particleId}); 
   }
 };
