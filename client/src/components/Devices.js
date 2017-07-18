@@ -61,10 +61,14 @@ class Devices extends Component {
     }.bind(this));
   }
 
-  forceCharge(event, data) {
+  turnOn(event, data) {
     // TODO apiCaller 
     console.log('turn charge on');
     console.log(data.id);
+  }
+
+  turnOff(event, data) {
+    //
   }
 
   toggleAuto(event, data) {
@@ -83,10 +87,10 @@ class Devices extends Component {
               <Item key={index}>
                 <Item.Content>
                   <Item.Meta>
-                    {device.chargingStatus === true &&
+                    {device.chargingStatus &&
                     <Icon name='plug' color='green' />
                     }
-                    {device.chargingStatus !== true &&
+                    {!device.chargingStatus &&
                     <Icon name='plug' color='red' />
                     }
                     <p>{device.particleId}</p>
@@ -95,8 +99,11 @@ class Devices extends Component {
                     <Checkbox id={device.particleId} label='Auto' toggle defaultChecked={device.auto} onChange={this.toggleAuto}/>
                   </Item.Description>
                   <Item.Extra>
-                    {!device.auto &&
-                      <Button id={device.particleId} basic size='mini' onClick={this.forceCharge} color='olive'><Icon name='plug' color='olive'/>Charge</Button>
+                    {!device.auto && !device.chargingStatus &&
+                      <Button id={device.particleId} basic size='mini' onClick={this.turnOn} color='olive'><Icon name='plug' color='olive'/>Turn On</Button>
+                    }
+                    {!device.auto && device.chargingStatus &&
+                      <Button id={device.particleId} basic size='mini' onClick={this.turnOff} color='orange'><Icon name='remove' color='orange'/>Turn Off</Button>
                     }
                   </Item.Extra>
                 </Item.Content>
