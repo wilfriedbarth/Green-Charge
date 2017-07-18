@@ -37,10 +37,10 @@ module.exports = {
     return setParticleStatus(particleId, chargingState)
       .then(resp => {
         const status = resp;
-        if (status === 1 && chargingState === 'on') {
-          res.json({ status: 'on' });
-        } else if (status === 0 && chargingState === 'off') {
-          res.json({ status: 'off' });
+        if (status === 1 ) {
+          res.json({ chargingState: 'on' });
+        } else if (status === 0 ) {
+          res.json({ chargingState: 'off' });
         }
       })
       .catch(next);
@@ -54,16 +54,16 @@ module.exports = {
       
   },
   addDevice(req, res, next) {
-    console.log(req.body, res);
+    
     const {particleId} = req.body;
     return createDevice(particleId)
       .then(result => res.json(result))
       .catch(next);
   },
   updateDevice(req, res, next) {
-    console.log(req);
+    const { id } = req.params;
     const { auto } = req.body;
-
+     
     return updateDeviceAuto(id, auto)
       .then(result => res.json(result))
       .catch(next);
