@@ -46,11 +46,14 @@ module.exports = {
       .catch(next);
   },
   getDevicesForUser(req, res, next) {
-    const { userId } = req.params;
+
+    return res.json({test: 'test' });
   
+    /*
     return fetchDevicesForUser(userId)
       .then(result => res.json(result))
       .catch(next);
+      */
   },
   addDevice(req, res, next) {
     return createDevice(req.body)
