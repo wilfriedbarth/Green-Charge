@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { NavLink } from 'react-router-dom';
-import authCaller from './utils/auth.js';
+import authCaller from '../actions/auth.js';
 
 class Signout extends Component {
 

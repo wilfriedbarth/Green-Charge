@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Dropdown, Button, Form } from 'semantic-ui-react';
-import apiCaller from './utils/api.js';
+import apiCaller from '../actions/api.js';
 import  countryOptions  from './countryListReference';
 import Graph from './Graph';
 
