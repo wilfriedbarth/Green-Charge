@@ -56,13 +56,21 @@ const apiCaller = {
       console.log(response.data);
     })
   }, 
-
-  // not working yet - charging state v charging status? 
+  getStatus(particleId) {
+    return axios.get(`/api/devices/${particleId}`).then(function(response) {
+      // status is 'on' or 'off'
+      if (response.data.status === 'on') {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  }, 
   setStatus(particleId, chargingState) {
     return axios.post(`/api/devices/${particleId}`, {
       chargingState: chargingState
     }).then(function(response) {
-      console.log(response.data);
+      console.log(response.data.chargingState);
     });
   }
 }
