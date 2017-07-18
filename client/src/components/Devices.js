@@ -12,30 +12,37 @@ class Devices extends Component {
   }
 
   componentWillMount() {
-    this.setState({devices: [
-      {
-        'particleId':'1e0032123447343149111039',
-        'userId': '12o319',
-        'auto':true,
-        'chargingStatus': 'off',
-        'countryCode': 'US'
-      }, 
-      {
-        'particleId':'1e0032199993748362955326',
-        'userId': '1231890',
-        'auto': true,
-        'chargingStatus': 'on',
-        'countryCode': 'FR'
-      },
-      {
-        'particleId':'1e0032123582724834444321',
-        'userId': '12o8316',
-        'auto': false,
-        'chargingStatus': 'off',
-        'countryCode': 'US'
-      }
-    ]
-    });
+    this.getDevices();
+    // this.setState({devices: [
+    //   {
+    //     'particleId':'1e0032123447343149111039',
+    //     'userId': '12o319',
+    //     'auto':true,
+    //     'chargingStatus': 'off',
+    //     'countryCode': 'US'
+    //   }, 
+    //   {
+    //     'particleId':'1e0032199993748362955326',
+    //     'userId': '1231890',
+    //     'auto': true,
+    //     'chargingStatus': 'on',
+    //     'countryCode': 'FR'
+    //   },
+    //   {
+    //     'particleId':'1e0032123582724834444321',
+    //     'userId': '12o8316',
+    //     'auto': false,
+    //     'chargingStatus': 'off',
+    //     'countryCode': 'US'
+    //   }
+    // ]
+    // });
+  }
+
+  getDevices() {
+    apiCaller.getUserDevices().then(function(data) {
+      this.setState({devices: data});
+    }.bind(this));
   }
 
   // capture user input for particleID in state
@@ -47,9 +54,11 @@ class Devices extends Component {
 
   // submit user input for particleID
   handleSubmit(event) {
-    // TODO apiCaller
-    console.log('add particle by id');
-    console.log(this.state.newParticleId);
+   apiCaller.addDevice(this.state.newParticleId).then(function(data) {
+      console.log(data);
+      // refresh state 
+      this.getDevices();
+    }.bind(this));
   }
 
   forceCharge(event, data) {
@@ -74,10 +83,10 @@ class Devices extends Component {
               <Item key={index}>
                 <Item.Content>
                   <Item.Meta>
-                    {device.chargingStatus === 'on' &&
+                    {device.chargingStatus === true &&
                     <Icon name='plug' color='green' />
                     }
-                    {device.chargingStatus !== 'on' &&
+                    {device.chargingStatus !== true &&
                     <Icon name='plug' color='red' />
                     }
                     <p>{device.particleId}</p>
