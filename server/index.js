@@ -40,8 +40,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.text());
 app.use(bodyParser.urlencoded({ extended: true}));
 app.use(morgan('dev'));
-// import routes for controllers
-app.use('/api', apiRoutes);
 // serve react app only in production
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/dist')));
@@ -49,6 +47,8 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.join(__dirname, '../client/dist/index.html'));
   });
 }
+// import routes for controllers
+app.use('/api', apiRoutes);
 // configure error handling middleware
 app.use((err, req, res, next) => {
   if (err) {
