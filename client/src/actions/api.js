@@ -71,7 +71,7 @@ const apiCaller = {
     return axios.post(`/api/devices/${particleId}`, {
       chargingState: chargingState
     }).then(function(response) {
-      console.log(response.data.chargingState);
+      return response.data;
     });
   }
 }

@@ -48,13 +48,17 @@ class Devices extends Component {
   }
 
   turnOn(event, data) {
-    // TODO apiCaller 
-    console.log('turn charge on');
-    console.log(data.id);
+    apiCaller.setStatus(data.id, 'on').then(function(data) {
+      console.log(data);
+      this.getDevices();
+    }.bind(this));
   }
 
   turnOff(event, data) {
-    //
+    apiCaller.setStatus(data.id, 'off').then(function(data) {
+      console.log(data);
+      this.getDevices();
+    }.bind(this));
   }
 
   render() {
@@ -80,10 +84,10 @@ class Devices extends Component {
                   </Item.Description>
                   <Item.Extra>
                     {!device.auto && !device.chargingStatus &&
-                      <Button id={device.particleId} basic size='mini' onClick={this.turnOn} color='olive'><Icon name='plug' color='olive'/>Turn On</Button>
+                      <Button id={device.particleId} basic size='mini' onClick={this.turnOn.bind(this)} color='olive'><Icon name='plug' color='olive'/>Turn On</Button>
                     }
                     {!device.auto && device.chargingStatus &&
-                      <Button id={device.particleId} basic size='mini' onClick={this.turnOff} color='orange'><Icon name='remove' color='orange'/>Turn Off</Button>
+                      <Button id={device.particleId} basic size='mini' onClick={this.turnOff.bind(this)} color='orange'><Icon name='remove' color='orange'/>Turn Off</Button>
                     }
                   </Item.Extra>
                 </Item.Content>
