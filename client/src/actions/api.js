@@ -56,6 +56,7 @@ const apiCaller = {
       return response.data;
     })
   }, 
+  
   getStatus(particleId) {
     return axios.get(`/api/devices/${particleId}`).then(function(response) {
       // status is 'on' or 'off'

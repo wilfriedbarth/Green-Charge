@@ -36,7 +36,23 @@ class Devices extends Component {
 
   getDevices() {
     apiCaller.getUserDevices().then(function(data) {
+      // set state with db info
       this.setState({devices: data});
+      // get status of each particle device and update it in the state 
+      this.state.devices.map(device => (this.getStatus(device.particleId)));
+    }.bind(this));
+  }
+
+  getStatus(particleId) {
+    apiCaller.getStatus(particleId).then(function(data) {
+      console.log('status for ' + particleId + ' is ' + data);
+      const newState = this.state;
+      // get device with matching particleId
+      const deviceIndex = newState.devices.findIndex((device => device.particleId = particleId));
+      // update chargingStatus in the state for that device
+      newState.devices[deviceIndex].chargingStatus = data;
+      console.log(newState.devices);
+      this.setState(newState);
     }.bind(this));
   }
 
@@ -48,16 +64,21 @@ class Devices extends Component {
   }
 
   turnOn(event, data) {
-    apiCaller.setStatus(data.id, 'on').then(function(data) {
+    const particleId = data.id;
+    apiCaller.setStatus(particleId, 'on').then(function(data) {
+      console.log('turned on' + particleId);
       console.log(data);
-      this.getDevices();
+      // get status & save to state (refresh)
+      this.getStatus(particleId);
     }.bind(this));
   }
 
   turnOff(event, data) {
-    apiCaller.setStatus(data.id, 'off').then(function(data) {
+    const particleId = data.id;
+    apiCaller.setStatus(particleId, 'off').then(function(data) {
+      console.log('turned off ' + particleId);
       console.log(data);
-      this.getDevices();
+      this.getStatus(particleId);
     }.bind(this));
   }
 
@@ -71,24 +92,24 @@ class Devices extends Component {
               <Item key={index}>
                 <Item.Content>
                   <Item.Meta>
-                    {device.chargingStatus &&
-                    <Icon name='plug' color='green' />
-                    }
-                    {!device.chargingStatus &&
-                    <Icon name='plug' color='red' />
-                    }
                     <p>{device.particleId}</p>
                   </Item.Meta>
                   <Item.Description>
-                    <Checkbox id={device._id} label='Auto' toggle defaultChecked={device.auto} onChange={this.toggleAuto.bind(this)}/>
-                  </Item.Description>
-                  <Item.Extra>
+                    {device.chargingStatus &&
+                    <Icon name='plug' size='large' color='green' />
+                    }
+                    {!device.chargingStatus &&
+                    <Icon name='plug' size='large' color='red' />
+                    }
                     {!device.auto && !device.chargingStatus &&
                       <Button id={device.particleId} basic size='mini' onClick={this.turnOn.bind(this)} color='olive'><Icon name='plug' color='olive'/>Turn On</Button>
                     }
                     {!device.auto && device.chargingStatus &&
-                      <Button id={device.particleId} basic size='mini' onClick={this.turnOff.bind(this)} color='orange'><Icon name='remove' color='orange'/>Turn Off</Button>
+                      <Button id={device.particleId} basic size='mini' onClick={this.turnOff.bind(this)} color='red'><Icon name='remove' color='red'/>Turn Off</Button>
                     }
+                  </Item.Description>
+                  <Item.Extra>
+                    <Checkbox id={device._id} label='Auto' toggle defaultChecked={device.auto} onChange={this.toggleAuto.bind(this)}/>
                   </Item.Extra>
                 </Item.Content>
               </Item>
