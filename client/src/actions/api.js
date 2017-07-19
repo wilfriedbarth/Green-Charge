@@ -43,8 +43,7 @@ const apiCaller = {
         {
           headers: { Authorization: accessToken }
         }).then(function(response) {
-          console.log(response);
-        return response.data;
+          return response.data;
       });
     });
   },

@@ -59,7 +59,6 @@ class Graph extends Component {
 
   componentWillReceiveProps(nextProps) {
     const countryCode = nextProps.selectedCountry;
-    console.log(nextProps.selectedCountry);
     // get dynamic carbon data 
     apiCaller.getCountryData(countryCode).then(function(data) {
       const countryData = this.state.countryData;

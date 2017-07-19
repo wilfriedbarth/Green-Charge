@@ -45,13 +45,11 @@ class Devices extends Component {
 
   getStatus(particleId) {
     apiCaller.getStatus(particleId).then(function(data) {
-      console.log('status for ' + particleId + ' is ' + data);
       const newState = this.state;
       // get device with matching particleId
       const deviceIndex = newState.devices.findIndex((device => device.particleId = particleId));
       // update chargingStatus in the state for that device
       newState.devices[deviceIndex].chargingStatus = data;
-      console.log(newState.devices);
       this.setState(newState);
     }.bind(this));
   }
