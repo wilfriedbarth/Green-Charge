@@ -6,7 +6,7 @@ const { setParticleStatus } = require('../queries/particle-api/apiQueries');
 const deviceSchema = new Schema({
   particleId: { type: String, unique: true, trim: true },
   userId: { type: String, default: null }, 
-  countryCode: { type: String, uppercase: true },
+  countryCode: { type: String, uppercase: true, default: 'US'},
   auto: {type: Boolean, default: true},
   chargingStatus: {type: Boolean, default: false}
 });
