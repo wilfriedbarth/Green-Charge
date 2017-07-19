@@ -66,19 +66,22 @@ class Devices extends Component {
   turnOn(event, data) {
     const particleId = data.id;
     apiCaller.setStatus(particleId, 'on').then(function(data) {
-      console.log('turned on' + particleId);
-      console.log(data);
       // get status & save to state (refresh)
-      this.getStatus(particleId);
+      // slight delay with timer because getStatus doesn't return updated value immediately
+      setTimeout(function() {
+        this.getStatus(particleId);
+      }.bind(this), 4*1000);
     }.bind(this));
   }
 
   turnOff(event, data) {
     const particleId = data.id;
     apiCaller.setStatus(particleId, 'off').then(function(data) {
-      console.log('turned off ' + particleId);
-      console.log(data);
-      this.getStatus(particleId);
+      // get status & save to state (refresh)
+      // slight delay with timer because getStatus doesn't return updated value immediately
+      setTimeout(function() {
+        this.getStatus(particleId);
+      }.bind(this), 4*1000);
     }.bind(this));
   }
 
