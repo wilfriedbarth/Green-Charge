@@ -6,22 +6,48 @@ import Signin from './Signin';
 import Devices from './Devices';
 
 class Main extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      authenticated: false,
+      selectedCountry: ""
+    }
+
+    this.handleChangeCountry = this.handleChangeCountry.bind(this);
+  }
+
+  handleChangeCountry(country) {
+    this.setState({selectedCountry: country})
+  }
+
+  componentWillMount() {
+    if(localStorage.getItem('accessToken')) {
+      this.setState({'authenticated': true}); 
+    } else {
+      this.setState({'authenticated': false});
+    }
+  }
 
   render() {
     return(
         <Grid>
           <Grid.Row>
             <Grid.Column width={13}>
-              <SearchBar />
-              <Graph />
+              <Grid.Row>
+                <SearchBar selectedCountry={this.state.selectedCountry}
+          handleChangeCountry={this.handleChangeCountry}/>
+                <Graph selectedCountry={this.state.selectedCountry}/>
+              </Grid.Row>
             </Grid.Column>
             <Grid.Column width={3}>
               <Devices />
             </Grid.Column>
           </Grid.Row>
           {!this.props.authenticated &&
-            <Signin signIn={this.props.signIn.bind(this)}/>
+            <Signin authenticated={this.props.authenticated} signIn={this.props.signIn.bind(this)}/>
             }
+            test: {this.state.selectedCountry}
         </Grid>
     )
   }

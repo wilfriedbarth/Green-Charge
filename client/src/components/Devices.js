@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Form, Item, Icon, Checkbox } from 'semantic-ui-react';
+import { Form, Item, Icon, Checkbox, Button } from 'semantic-ui-react';
+import apiCaller from '../actions/api.js';
 
 class Devices extends Component {
   constructor(props) {
@@ -12,41 +13,74 @@ class Devices extends Component {
   }
 
   componentWillMount() {
-    // use sample device data for now
-    this.setState({devices: [
-      {
-        'particleId':'1e0032123447343149111039',
-        'userId': '12o319',
-        'auto':true,
-        'chargingStatus': 'off',
-        'countryCode': 'US'
-      }, 
-      {
-        'particleId':'1e0032199993748362955326',
-        'userId': '1231890',
-        'auto': true,
-        'chargingStatus': 'on',
-        'countryCode': 'FR'
-      },
-      {
-        'particleId':'1e0032123582724834444321',
-        'userId': '12o8316',
-        'auto': false,
-        'chargingStatus': 'off',
-        'countryCode': 'US'
-      }
-    ]
-    });
+    this.getDevices();
   }
 
+  // submit user input for particleID
+  handleSubmit(event) {
+   apiCaller.addDevice(this.state.newParticleId).then(function(data) {
+      // refresh state post db-update
+      this.getDevices();
+    }.bind(this));
+    // clear form inputs
+    document.getElementById('newDeviceForm').reset();
+  }
+
+  toggleAuto(event, data) {
+    apiCaller.toggleAutoCharge(data.id, data.checked).then(function(data) {
+      // refresh state post db-update
+      this.getDevices();
+    }.bind(this));
+
+  }
+
+  getDevices() {
+    apiCaller.getUserDevices().then(function(data) {
+      // set state with db info
+      this.setState({devices: data});
+      // get status of each particle device and update it in the state 
+      this.state.devices.map(device => (this.getStatus(device.particleId)));
+    }.bind(this));
+  }
+
+  getStatus(particleId) {
+    apiCaller.getStatus(particleId).then(function(data) {
+      const newState = this.state;
+      // get device with matching particleId
+      const deviceIndex = newState.devices.findIndex((device => device.particleId = particleId));
+      // update chargingStatus in the state for that device
+      newState.devices[deviceIndex].chargingStatus = data;
+      this.setState(newState);
+    }.bind(this));
+  }
+
+  // capture user input for particleID in state
   handleChange(event) {
     const newState = {};
     newState[event.target.id] = event.target.value;
     this.setState(newState);
   }
 
-  handleSubmit(event) {
-    console.log(this.state.newParticleId);
+  turnOn(event, data) {
+    const particleId = data.id;
+    apiCaller.setStatus(particleId, 'on').then(function(data) {
+      // get status & save to state (refresh)
+      // slight delay with timer because getStatus doesn't return updated value immediately
+      setTimeout(function() {
+        this.getStatus(particleId);
+      }.bind(this), 4*1000);
+    }.bind(this));
+  }
+
+  turnOff(event, data) {
+    const particleId = data.id;
+    apiCaller.setStatus(particleId, 'off').then(function(data) {
+      // get status & save to state (refresh)
+      // slight delay with timer because getStatus doesn't return updated value immediately
+      setTimeout(function() {
+        this.getStatus(particleId);
+      }.bind(this), 4*1000);
+    }.bind(this));
   }
 
   render() {
@@ -59,23 +93,31 @@ class Devices extends Component {
               <Item key={index}>
                 <Item.Content>
                   <Item.Meta>
-                    {device.chargingStatus === 'on' &&
-                    <Icon name='plug' color='green' />
-                    }
-                    {device.chargingStatus !== 'on' &&
-                    <Icon name='plug' color='red' />
-                    }
                     <p>{device.particleId}</p>
                   </Item.Meta>
                   <Item.Description>
-                    <Checkbox label='Auto' toggle defaultChecked={device.auto}/>
+                    {device.chargingStatus &&
+                    <Icon name='plug' size='large' color='green' />
+                    }
+                    {!device.chargingStatus &&
+                    <Icon name='plug' size='large' color='red' />
+                    }
+                    {!device.auto && !device.chargingStatus &&
+                      <Button id={device.particleId} basic size='mini' onClick={this.turnOn.bind(this)} color='olive'><Icon name='plug' color='olive'/>Turn On</Button>
+                    }
+                    {!device.auto && device.chargingStatus &&
+                      <Button id={device.particleId} basic size='mini' onClick={this.turnOff.bind(this)} color='red'><Icon name='remove' color='red'/>Turn Off</Button>
+                    }
                   </Item.Description>
+                  <Item.Extra>
+                    <Checkbox id={device._id} label='Auto' toggle defaultChecked={device.auto} onChange={this.toggleAuto.bind(this)}/>
+                  </Item.Extra>
                 </Item.Content>
               </Item>
             ))}
         </Item.Group>
         }
-        <Form onSubmit={this.handleSubmit.bind(this)}>
+        <Form id='newDeviceForm' onSubmit={this.handleSubmit.bind(this)}>
           <Form.Input id='newParticleId' label='Add particle device by id' type='text' onChange={this.handleChange.bind(this)} />
           <Form.Button>Add Device</Form.Button>
         </Form>

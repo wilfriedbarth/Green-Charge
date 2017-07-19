@@ -3,24 +3,24 @@ import { Dropdown, Button, Form } from 'semantic-ui-react';
 import apiCaller from '../actions/api.js';
 import  countryOptions  from './countryListReference';
 
-
 class SearchBar extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {value: ""}
 		
-		this.onCountryChange = this.onCountryChange.bind(this);
+		this.handleChange = this.handleChange.bind(this);
 		
 	}
 
 
-  	onCountryChange (evnt, data) {
-  	 	this.setState({ value: data.value})
-  	 	console.log(this.state.value)
-  	 	
+  	handleChange (e, data) {
+  		this.props.handleChangeCountry(data.value)
   	}
 
+  	// componentWillReceiveProps(nextProps) {
+  	// 	console.log("Received props!")
+  			
+  	// }
 
 		render () {
 				
@@ -31,8 +31,8 @@ class SearchBar extends Component {
 				placeholder='Country' 
 				search selection
 				options={countryOptions}
-				value = {this.state.value}
-				onChange={this.onCountryChange}
+				value = {this.props.selectedCountry}
+				onChange={this.handleChange}
 				/>
 				</form>
 			)		
